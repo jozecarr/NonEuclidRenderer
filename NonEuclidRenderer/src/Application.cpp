@@ -9,6 +9,7 @@
 #include "Renderer.h" 
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "VertexBufferLayout.h"
 
 struct ShaderProgramSource {
     std::string VertexSource;
@@ -38,7 +39,7 @@ static ShaderProgramSource ParseShader(const std::string& filepath) {
         {
             ss[(int)type] << line << "\n";
         }
-    }
+    } 
 
     return { ss[0].str(), ss[1].str() };
 }
@@ -127,7 +128,12 @@ int main(void){
         GLCall(glGenVertexArrays(1, &vao));
         GLCall(glBindVertexArray(vao));
 
+        VertexArray va;
         VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+        va.AddBuffer(vb);
+        BufferLayout layout;
+        layout.Push<float>(3);
+        va.AddLayout(layout); 
 
         GLCall(glEnableVertexAttribArray(0));
         GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0)); //specify the layout of the buffer data
@@ -160,6 +166,7 @@ int main(void){
             GLCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
 
             GLCall(glBindVertexArray(vao));
+            va.Bind();
             ib.Bind();
 
             GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
