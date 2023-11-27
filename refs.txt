@@ -1,0 +1,2 @@
+glfw.org
+glew.sourceforge.net
