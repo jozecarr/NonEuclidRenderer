@@ -14,6 +14,20 @@
 #include "VertexArray.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "Camera.h"
+#include "InputCallbacks.h"
+
+//settings
+
+const unsigned int SCR_WIDTH = 2000;
+const unsigned int SCR_HEIGHT = 2000;
+
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Input input(true, SCR_WIDTH / 2.0f, SCR_HEIGHT / 2.0);
+
+// timing
+float deltaTime = 0.0f;	// time between current frame and last frame
+float lastFrame = 0.0f;
 
 int main(void){
     GLFWwindow* window;
@@ -27,9 +41,10 @@ int main(void){
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "NON-EUCLIDEAN PROJ", NULL, NULL);
     if (!window)
     {
+        std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         return -1;
     }
@@ -37,42 +52,61 @@ int main(void){
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
-    glfwSwapInterval(1);
+    // set input callbacks, use lambda functions for input classes funcs
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetCursorPosCallback(window, [](GLFWwindow* win, double xpos, double ypos) {
+        input.mouse_callback(win, xpos, ypos, camera);
+        });
+
+    // tell GLFW to capture our mouse
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     if (glewInit() != GLEW_OK)
         std::cout << "glewInit fail" << std::endl;
 
     std::cout << glGetString(GL_VERSION) << std::endl;
 
+    glEnable(GL_DEPTH_TEST);
+
     {
-        float positions[] = {
-            -0.5f, -0.5f,   0.0f, 0.0f,
-             0.5f, -0.5f,   1.0f, 0.0f,
-             0.5f,  0.5f,   1.0f, 1.0f,
-            -0.5f,  0.5f,   0.0f, 1.0f
+        
+        float vertices[8 * 5] = {
+            -1, -1, -1, 0, 0,
+             1, -1, -1, 1, 0,
+             1,  1, -1, 1, 1,
+            -1,  1, -1, 0, 1,
+            -1, -1,  1, 0, 0,
+             1, -1,  1, 1, 0,
+             1,  1,  1, 1, 1,
+            -1,  1,  1, 0, 1
         };
 
-        unsigned int indices[] = {
-            0, 1, 2,
-            2, 3, 0
+        unsigned int indices[6 * 6] =
+        {
+            0, 1, 3, 3, 1, 2,
+            1, 5, 2, 2, 5, 6,
+            5, 4, 6, 6, 4, 7,
+            4, 0, 7, 7, 0, 3,
+            3, 2, 7, 7, 2, 6,
+            4, 5, 0, 0, 5, 1
         };
+
 
         GLCall(glEnable(GL_BLEND));
         GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
         VertexArray va;
-        VertexBuffer vb(positions, 4 * 4 * sizeof(float));
+        VertexBuffer vb(vertices, 6 * 6 * 5 * sizeof(float));
         
         VertexBufferLayout layout;
-        layout.Push<float>(2);
+        layout.Push<float>(3);
         layout.Push<float>(2);
         va.AddBuffer(vb, layout); 
-        
-        IndexBuffer ib(indices, 6);
 
+        IndexBuffer ib(indices, 6 * 6);
+        
         Shader shader("res/shaders/Basic.shader");
         shader.Bind();
-        shader.SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
 
         Texture texture("res/textures/smile.png");
         texture.Bind();
@@ -85,26 +119,51 @@ int main(void){
 
         Renderer renderer;
 
-        float r = 0.0f;
-        float increment = 0.05f;
+        printf("%s\n", glGetString(GL_VERSION));
+
+        float deltaTime = 0.0f;
+        float lastFrame = 0.0f;
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
+            float currentFrame = static_cast<float>(glfwGetTime());
+            deltaTime = currentFrame - lastFrame;
+            lastFrame = currentFrame;
+
+            input.ProcessInput(window, camera, deltaTime);
+
             /* Render here */
             renderer.Clear();
 
             shader.Bind();
-            shader.SetUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f);
+
+            glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), 
+                (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+            shader.SetUniformMat4("projection", projection);
+
+            glm::mat4 view = camera.GetViewMatrix();
+            shader.SetUniformMat4("view", view);
+
+            va.Bind();
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(0,0,0));
+            model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.3f, 0.5f));
+            shader.SetUniformMat4("model", model);
+
+            //for (unsigned int i = 0; i < 10; i++)
+            //{
+            //    // calculate the model matrix for each object and pass it to shader before drawing
+            //    glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+            //    model = glm::translate(model, cubePositions[i]);
+            //    float angle = 20.0f * i;
+            //    model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+            //    shader.SetUniformMat4("model", model);
+
+            //    glDrawArrays(GL_TRIANGLES, 0, 36);
+            //}
 
             renderer.Draw(va, ib, shader);
-
-            if (r > 1.0f)
-                increment = -0.05f;
-            else if (r < 0.0f)
-                increment = 0.05f;
-
-            r += increment;
 
             /* Swap front and back buffers */
             GLCall(glfwSwapBuffers(window));

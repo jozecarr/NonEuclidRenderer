@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 #include "VertexArray.h"
 #include "IndexBuffer.h"
@@ -13,6 +14,7 @@
 
 void GLClearError();
 bool GLLogCall(const char* function, const char* file, int line);
+void framebuffer_size_callback(GLFWwindow * window, int width, int height);
 
 class Renderer {
 public:
