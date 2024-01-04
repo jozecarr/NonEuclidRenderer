@@ -6,6 +6,8 @@
 #include "VertexArray.h"
 #include "IndexBuffer.h"
 #include "Shader.h"
+#include "World.h"
+#include "Camera.h"
 
 #define ASSERT(x) if(!(x)) __debugbreak(); 
 #define GLCall(x) GLClearError;\
@@ -21,3 +23,5 @@ public:
     void Clear() const;
     void Draw(VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
 };
+
+void DrawWorld(World& world, Camera& camera, float scrWidth, float scrHeight, Shader& shader);
