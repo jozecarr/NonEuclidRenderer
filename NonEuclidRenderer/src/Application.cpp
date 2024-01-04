@@ -147,9 +147,7 @@ int main(void){
         Renderer renderer;
 
         printf("%s\n", glGetString(GL_VERSION));
-
-        float deltaTime = 0.0f;
-        float lastFrame = 0.0f;
+ 
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
