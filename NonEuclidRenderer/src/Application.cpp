@@ -16,6 +16,8 @@
 #include "Texture.h"
 #include "Camera.h"
 #include "InputCallbacks.h"
+#include "GameObject.h"
+#include "World.h"
 
 //settings
 
@@ -28,6 +30,51 @@ Input input(true, SCR_WIDTH / 2.0f, SCR_HEIGHT / 2.0);
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
+
+float cubeVertices[36 * 5] = {
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+};
+
 
 int main(void){
     GLFWwindow* window;
@@ -69,41 +116,21 @@ int main(void){
     glEnable(GL_DEPTH_TEST);
 
     {
-        
-        float vertices[8 * 5] = {
-            -1, -1, -1, 0, 0,
-             1, -1, -1, 1, 0,
-             1,  1, -1, 1, 1,
-            -1,  1, -1, 0, 1,
-            -1, -1,  1, 0, 0,
-             1, -1,  1, 1, 0,
-             1,  1,  1, 1, 1,
-            -1,  1,  1, 0, 1
-        };
-
-        unsigned int indices[6 * 6] =
-        {
-            0, 1, 3, 3, 1, 2,
-            1, 5, 2, 2, 5, 6,
-            5, 4, 6, 6, 4, 7,
-            4, 0, 7, 7, 0, 3,
-            3, 2, 7, 7, 2, 6,
-            4, 5, 0, 0, 5, 1
-        };
-
-
         GLCall(glEnable(GL_BLEND));
         GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
+        Object obj = Object({ 2, 1, 1 }, { 0, 4, 0 }, {10, 15, 20});
+        World world = World({ &obj });
+
         VertexArray va;
-        VertexBuffer vb(vertices, 6 * 6 * 5 * sizeof(float));
+        VertexBuffer vb(cubeVertices, 6 * 6 * 5 * sizeof(float));
         
         VertexBufferLayout layout;
         layout.Push<float>(3);
         layout.Push<float>(2);
         va.AddBuffer(vb, layout); 
 
-        IndexBuffer ib(indices, 6 * 6);
+        //IndexBuffer ib(indices, 6 * 6);
         
         Shader shader("res/shaders/Basic.shader");
         shader.Bind();
@@ -115,7 +142,7 @@ int main(void){
         va.Unbind();
         shader.Unbind();
         vb.Unbind();
-        ib.Unbind();
+        //ib.Unbind();
 
         Renderer renderer;
 
@@ -134,36 +161,13 @@ int main(void){
             input.ProcessInput(window, camera, deltaTime);
 
             /* Render here */
-            renderer.Clear();
-
+            //renderer.Clear();
+            GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+            
             shader.Bind();
-
-            glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), 
-                (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-            shader.SetUniformMat4("projection", projection);
-
-            glm::mat4 view = camera.GetViewMatrix();
-            shader.SetUniformMat4("view", view);
-
             va.Bind();
-            glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(0,0,0));
-            model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.3f, 0.5f));
-            shader.SetUniformMat4("model", model);
 
-            //for (unsigned int i = 0; i < 10; i++)
-            //{
-            //    // calculate the model matrix for each object and pass it to shader before drawing
-            //    glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-            //    model = glm::translate(model, cubePositions[i]);
-            //    float angle = 20.0f * i;
-            //    model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-            //    shader.SetUniformMat4("model", model);
-
-            //    glDrawArrays(GL_TRIANGLES, 0, 36);
-            //}
-
-            renderer.Draw(va, ib, shader);
+            DrawWorld(world, camera, SCR_WIDTH, SCR_HEIGHT, shader);
 
             /* Swap front and back buffers */
             GLCall(glfwSwapBuffers(window));
