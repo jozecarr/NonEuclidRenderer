@@ -21,8 +21,8 @@
 
 //settings
 
-const unsigned int SCR_WIDTH = 2000;
-const unsigned int SCR_HEIGHT = 2000;
+const unsigned int SCREEN_WIDTH = 2000;
+const unsigned int SCREEN_HEIGHT = 2000;
 
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 Input input(true, SCR_WIDTH / 2.0f, SCR_HEIGHT / 2.0);
@@ -88,7 +88,7 @@ int main(void){
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "NON-EUCLIDEAN PROJ", NULL, NULL);
+    window = glfwCreateWindow(camera.ScreenWidth, camera.ScreenHeight, "NON-EUCLIDEAN PROJ", NULL, NULL);
     if (!window)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -148,6 +148,7 @@ int main(void){
 
         printf("%s\n", glGetString(GL_VERSION));
  
+        vec3 incs = { 0.001f, 0.0012f, 0.0014f };
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
@@ -165,7 +166,7 @@ int main(void){
             shader.Bind();
             va.Bind();
 
-            DrawWorld(world, camera, SCR_WIDTH, SCR_HEIGHT, shader);
+            DrawWorld(world, camera, shader);
 
             /* Swap front and back buffers */
             GLCall(glfwSwapBuffers(window));

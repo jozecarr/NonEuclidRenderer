@@ -11,9 +11,11 @@ const float PITCH = 0.0f;
 const float SPEED = 2.5f;
 const float SENSITIVITY = 0.1f;
 const float ZOOM = 45.0f;
+const int SCR_WIDTH = 1000;
+const int SCR_HEIGHT = 1000;
 
 
-// Defines several possible options for camera movement. Used as an abstraction to stay away from window-system specific input methods
+// Defines several possible options for camera movement
 enum Camera_Movement {
     FORWARD,
     BACKWARD,
@@ -26,6 +28,8 @@ class Camera {
 public:
     unsigned int id;
 
+    int ScreenWidth, ScreenHeight;
+
     // camera attributes
     glm::vec3 Position, Front, Up, Right, WorldUp;
 
@@ -36,10 +40,10 @@ public:
     float MovementSpeed, MouseSensitivity, Zoom;
 
     // constructor with vectors
-    Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH);
+    Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH, int scrWidth = SCR_WIDTH, int scrHeight = SCR_HEIGHT);
 
     // constructor with scalar values
-    Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch);
+    Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch, int scrWidth, int scrHeight);
     
     // returns the view matrix calculated using Euler Angles and the LookAt Matrix
     glm::mat4 GetViewMatrix();

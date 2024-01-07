@@ -33,11 +33,11 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
-void DrawWorld(World& world, Camera& camera, float scrWidth, float scrHeight, Shader& shader) {
+void DrawWorld(World& world, Camera& camera, Shader& shader) {
     shader.Bind();
 
     glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom),
-        (float)scrWidth / (float)scrHeight, 0.1f, 100.0f);
+        (float)camera.ScreenWidth / (float)camera.ScreenHeight, 0.1f, 100.0f);
 
     shader.SetUniformMat4("projection", projection);
 

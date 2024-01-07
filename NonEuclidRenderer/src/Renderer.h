@@ -24,4 +24,4 @@ public:
     void Draw(VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
 };
 
-void DrawWorld(World& world, Camera& camera, float scrWidth, float scrHeight, Shader& shader);
+void DrawWorld(World& world, Camera& camera, Shader& shader);
