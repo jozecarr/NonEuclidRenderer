@@ -1,10 +1,10 @@
 #include "GameObject.h"
 
-Object::Object(vec3 objScaleP, vec3 objPositionP, vec3 objRotationP/*, std::string& texPathP*/) {
+Object::Object(Shader *shaderP, vec3 objScaleP, vec3 objPositionP, vec3 objRotationP) {
 	objScale = objScaleP;
 	objPosition = objPositionP;
 	objRotation = objRotationP;
-	//texPath = texPathP;
+	shader = shaderP;
 
 	UpdateModelMatrix();
 }

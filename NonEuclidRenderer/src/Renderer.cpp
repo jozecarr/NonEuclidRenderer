@@ -33,20 +33,19 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
-void DrawWorld(World& world, Camera& camera, Shader& shader) {
-    shader.Bind();
+void DrawWorld(World& world, Camera& camera) {
 
     glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom),
         (float)camera.ScreenWidth / (float)camera.ScreenHeight, 0.1f, 100.0f);
-
-    shader.SetUniformMat4("projection", projection);
-
     glm::mat4 view = camera.GetViewMatrix();
-    shader.SetUniformMat4("view", view);
 
     for (const auto& obj : world.objects)
     {
-        shader.SetUniformMat4("model", obj->model);
+        obj->shader->Bind();
+        obj->shader->SetUniformMat4("view", view);
+        obj->shader->SetUniformMat4("projection", projection);
+        obj->shader->SetUniformMat4("model", obj->model);
+
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
 }

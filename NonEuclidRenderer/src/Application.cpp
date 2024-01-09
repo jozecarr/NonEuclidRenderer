@@ -78,6 +78,8 @@ float cubeVertices[36 * 5] = {
 
 int main(void){
     GLFWwindow* window;
+    camera.ScreenWidth = SCREEN_WIDTH;
+    camera.ScreenHeight = SCREEN_HEIGHT;
 
     /* Initialize the library */
     if (!glfwInit())
@@ -88,7 +90,7 @@ int main(void){
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(camera.ScreenWidth, camera.ScreenHeight, "NON-EUCLIDEAN PROJ", NULL, NULL);
+    window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "NON-EUCLIDEAN PROJ", NULL, NULL);
     if (!window)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -119,35 +121,41 @@ int main(void){
         GLCall(glEnable(GL_BLEND));
         GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
-        Object obj = Object({ 2, 1, 1 }, { 0, 4, 0 }, {10, 15, 20});
-        World world = World({ &obj });
-
         VertexArray va;
         VertexBuffer vb(cubeVertices, 6 * 6 * 5 * sizeof(float));
-        
+
         VertexBufferLayout layout;
         layout.Push<float>(3);
         layout.Push<float>(2);
-        va.AddBuffer(vb, layout); 
+        va.AddBuffer(vb, layout);
 
         //IndexBuffer ib(indices, 6 * 6);
-        
+
         Shader shader("res/shaders/Basic.shader");
         shader.Bind();
 
         Texture texture("res/textures/smile.png");
-        texture.Bind();
-        shader.SetUniform1i("u_Texture", 0);
+        texture.Bind(5);
+        shader.SetUniform1i("u_Texture", 5);
+
+        //Shader shader2("res/shaders/Untexed.shader");
+        //shader2.Bind();
+
+        shader.Unbind();
+        //shader2.Unbind();
 
         va.Unbind();
-        shader.Unbind();
         vb.Unbind();
         //ib.Unbind();
 
         Renderer renderer;
 
         printf("%s\n", glGetString(GL_VERSION));
- 
+
+        Object obj1 = Object(&shader, { 2, 1, 1 }, { 0, 4, 0 }, { 10, 15, 20 });
+        //Object obj2 = Object(&shader2, { 1, 0.6, 0.4 }, { 1, -1, -1 }, { 0, 0, 0 });
+        World world = World({ &obj1, /*&obj2*/});
+
         vec3 incs = { 0.001f, 0.0012f, 0.0014f };
 
         /* Loop until the user closes the window */
@@ -161,12 +169,16 @@ int main(void){
 
             /* Render here */
             //renderer.Clear();
+            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
             
             shader.Bind();
             va.Bind();
 
-            DrawWorld(world, camera, shader);
+            obj1.Rotate({0.001f, 0.0014f, 0.0018f});
+            //obj2.Rotate({-0.001f, -0.0014f, -0.0018f });
+
+            DrawWorld(world, camera);
 
             /* Swap front and back buffers */
             GLCall(glfwSwapBuffers(window));
