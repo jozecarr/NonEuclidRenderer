@@ -137,7 +137,7 @@ int main(void){
         Renderer renderer;
 
         Time time;
-        time.LimitFrameRate(120);
+        time.LimitFrameRate(60);
 
         printf("%s\n", glGetString(GL_VERSION));
 
