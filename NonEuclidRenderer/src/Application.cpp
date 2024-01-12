@@ -18,6 +18,9 @@
 #include "InputCallbacks.h"
 #include "GameObject.h"
 #include "World.h"
+#include "Time.h"
+
+#include "Demo.h"
 
 //settings
 
@@ -26,10 +29,6 @@ const unsigned int SCREEN_HEIGHT = 2000;
 
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 Input input(true, SCR_WIDTH / 2.0f, SCR_HEIGHT / 2.0);
-
-// timing
-float deltaTime = 0.0f;	// time between current frame and last frame
-float lastFrame = 0.0f;
 
 float cubeVertices[36 * 5] = {
     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -74,7 +73,6 @@ float cubeVertices[36 * 5] = {
     -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
     -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 };
-
 
 int main(void){
     GLFWwindow* window;
@@ -129,20 +127,8 @@ int main(void){
         layout.Push<float>(2);
         va.AddBuffer(vb, layout);
 
-        //IndexBuffer ib(indices, 6 * 6);
-
-        Shader shader("res/shaders/Basic.shader");
-        shader.Bind();
-
-        Texture texture("res/textures/smile.png");
-        texture.Bind(5);
-        shader.SetUniform1i("u_Texture", 5);
-
-        //Shader shader2("res/shaders/Untexed.shader");
-        //shader2.Bind();
-
-        shader.Unbind();
-        //shader2.Unbind();
+        Texture texture("res/textures/checks_HD.png");
+        texture.Bind(1);
 
         va.Unbind();
         vb.Unbind();
@@ -150,33 +136,27 @@ int main(void){
 
         Renderer renderer;
 
+        Time time;
+        time.LimitFrameRate(120);
+
         printf("%s\n", glGetString(GL_VERSION));
 
-        Object obj1 = Object(&shader, { 2, 1, 1 }, { 0, 4, 0 }, { 10, 15, 20 });
-        //Object obj2 = Object(&shader2, { 1, 0.6, 0.4 }, { 1, -1, -1 }, { 0, 0, 0 });
-        World world = World({ &obj1, /*&obj2*/});
+        World world = World();
+        
+        Demo demo(&time, &world);
 
-        vec3 incs = { 0.001f, 0.0012f, 0.0014f };
-
-        /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
-            float currentFrame = static_cast<float>(glfwGetTime());
-            deltaTime = currentFrame - lastFrame;
-            lastFrame = currentFrame;
-
-            input.ProcessInput(window, camera, deltaTime);
+            time.Update();
+            input.ProcessInput(window, camera, time.GetDeltaTime());
 
             /* Render here */
-            //renderer.Clear();
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
-            
-            shader.Bind();
+
             va.Bind();
 
-            obj1.Rotate({0.001f, 0.0014f, 0.0018f});
-            //obj2.Rotate({-0.001f, -0.0014f, -0.0018f });
+            demo.run();
 
             DrawWorld(world, camera);
 
