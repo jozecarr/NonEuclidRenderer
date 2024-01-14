@@ -21,14 +21,13 @@ public:
 
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_real_distribution<float> randFloat_rot(0.015f, 0.02f);
+        std::uniform_real_distribution<float> randFloat_rot(0.02f, 0.04f);
 
         randvec_rot = { randFloat_rot(gen), randFloat_rot(gen), randFloat_rot(gen) };
     }
 
 	void run() {
-        if (time->EveryNSeconds(0.1) && world->objects.size() <= 100)
-        {
+        if (time->EveryNSeconds(0.05) && world->objects.size() <= 20000) {
             // Random number generators
             std::random_device rd;
             std::mt19937 gen(rd());

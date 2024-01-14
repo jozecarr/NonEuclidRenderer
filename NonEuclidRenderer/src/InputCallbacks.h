@@ -11,6 +11,6 @@ public:
     bool firstMouse = true;
     float lastX, lastY;
 
-    void mouse_callback(GLFWwindow* window, double xposIn, double yposIn, Camera& camera);
-    void ProcessInput(GLFWwindow* window, Camera& camera, float deltaTime);
+    void mouse_callback(GLFWwindow* window, double xposIn, double yposIn, Camera &camera);
+    void ProcessInput(GLFWwindow* window, Camera &camera, float deltaTime);
 };

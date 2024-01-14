@@ -9,6 +9,7 @@
 const float YAW = -90.0f;
 const float PITCH = 0.0f;
 const float SPEED = 2.5f;
+const float SPEED_MULT = 20.0f;
 const float SENSITIVITY = 0.1f;
 const float ZOOM = 45.0f;
 const int SCR_WIDTH = 1000;
@@ -20,7 +21,8 @@ enum Camera_Movement {
     FORWARD,
     BACKWARD,
     LEFT,
-    RIGHT
+    RIGHT,
+    SHIFT
 };
 
 // An abstract camera class that processes input and calculates the corresponding Euler Angles, Vectors, and Matrices for use in OpenGL
@@ -37,7 +39,7 @@ public:
     float Yaw, Pitch;
 
     // camera options
-    float MovementSpeed, MouseSensitivity, Zoom;
+    float MovementSpeed, SpeedMult, MouseSensitivity, Zoom;
 
     // constructor with vectors
     Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH, int scrWidth = SCR_WIDTH, int scrHeight = SCR_HEIGHT);
@@ -53,9 +55,6 @@ public:
 
     // processes input received from a mouse input system. Expects the offset value in both the x and y direction.
     void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
-
-    // processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
-    void ProcessMouseScroll(float yoffset);
 
 private:
     // calculates the front vector from the Camera's (updated) Euler Angles

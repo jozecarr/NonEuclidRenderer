@@ -8,7 +8,7 @@ Input::Input(bool fm, float lx, float ly) {
     lastY = ly;
 }
 
-void Input::mouse_callback(GLFWwindow* window, double xposIn, double yposIn, Camera& camera)
+void Input::mouse_callback(GLFWwindow* window, double xposIn, double yposIn, Camera &camera)
 {
     float xpos = static_cast<float>(xposIn);
     float ypos = static_cast<float>(yposIn);
@@ -33,6 +33,9 @@ void Input::ProcessInput(GLFWwindow* window, Camera &camera, float deltaTime)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+
+    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT))
+        camera.ProcessKeyboard(SHIFT, deltaTime);
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         camera.ProcessKeyboard(FORWARD, deltaTime);
