@@ -27,7 +27,7 @@
 const unsigned int SCREEN_WIDTH = 2000;
 const unsigned int SCREEN_HEIGHT = 2000;
 
-Camera player(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera mainCamera(glm::vec3(0.0f, 0.0f, 3.0f));
 Input input(true, SCR_WIDTH / 2.0f, SCR_HEIGHT / 2.0);
 
 float cubeVertices[36 * 5] = {
@@ -76,8 +76,8 @@ float cubeVertices[36 * 5] = {
 
 int main(void){
     GLFWwindow* window;
-    player.ScreenWidth = SCREEN_WIDTH;
-    player.ScreenHeight = SCREEN_HEIGHT;
+    mainCamera.ScreenWidth = SCREEN_WIDTH;
+    mainCamera.ScreenHeight = SCREEN_HEIGHT;
 
     /* Initialize the library */
     if (!glfwInit())
@@ -102,7 +102,7 @@ int main(void){
     // set input callbacks, use lambda functions for input classes funcs
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, [](GLFWwindow* win, double xpos, double ypos) {
-        input.mouse_callback(win, xpos, ypos, player);
+        input.mouse_callback(win, xpos, ypos, mainCamera);
         });
 
     // tell GLFW to capture our mouse
@@ -150,7 +150,7 @@ int main(void){
         while (!glfwWindowShouldClose(window))
         {
             time.Update();
-            input.ProcessInput(window, player, time.GetDeltaTime());
+            input.ProcessInput(window, mainCamera, time.GetDeltaTime());
 
             /* Render here */
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -160,7 +160,7 @@ int main(void){
 
             demo.run();
 
-            DrawWorld(world, player);
+            DrawWorld(world, mainCamera);
 
             /* Swap front and back buffers */
             GLCall(glfwSwapBuffers(window));
