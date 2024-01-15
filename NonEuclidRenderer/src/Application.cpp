@@ -19,6 +19,7 @@
 #include "GameObject.h"
 #include "World.h"
 #include "Time.h"
+#include "Raycasting.h"
 
 #include "Demo.h"
 
@@ -27,7 +28,10 @@
 const unsigned int SCREEN_WIDTH = 2000;
 const unsigned int SCREEN_HEIGHT = 2000;
 
-Camera mainCamera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera mainCamera(vec3(0.0f, 0.0f, 3.0f));
+Camera secondaryCamera(vec3(10.0f, 10.0f, -5.0f));
+Camera* cameras[2] = { &mainCamera, &secondaryCamera };
+
 Input input(true, SCR_WIDTH / 2.0f, SCR_HEIGHT / 2.0);
 
 float cubeVertices[36 * 5] = {
@@ -78,6 +82,8 @@ int main(void){
     GLFWwindow* window;
     mainCamera.ScreenWidth = SCREEN_WIDTH;
     mainCamera.ScreenHeight = SCREEN_HEIGHT;
+    secondaryCamera.ScreenWidth = SCREEN_WIDTH;
+    secondaryCamera.ScreenHeight = SCREEN_HEIGHT;
 
     /* Initialize the library */
     if (!glfwInit())
@@ -146,6 +152,33 @@ int main(void){
         //initialise demo
         Demo demo(&time, &world);
 
+        ////////////////////
+
+        Shader* newShader = new Shader("res/shaders/Basic.shader");
+        newShader->Bind();
+        newShader->SetUniform1i("u_Texture", 1);
+        newShader->SetUniform4f("u_Color", 1.0, 1.0, 1.0, 1.0);
+        newShader->Unbind();
+
+        Object* newObj = new Object(newShader, { 1,1,1 }, { 3, 0, 0 }, { 0,0,0 });
+        world.objects.push_back(newObj);
+
+        world.objects[0]->SetPosition({ 1 ,0 ,0 });
+        world.objects[0]->Rotate({ 0,0,0 });
+
+        Ray ray = Ray({ 0,0,0 }, {0,0,0}, &world);
+
+        std::cout << "distance " << ray.hitInfo.hitDistance << " hit at " << ray.hitInfo.hitPosition.x << "," << ray.hitInfo.hitPosition.y << "," << ray.hitInfo.hitPosition.z << std::endl;
+        std::cout << "didhit? " << ray.didHit << std::endl;
+        Object* axisX = new Object(world.objects[0]->shader, { 1000, 0.01, 0.01 }, { 0,0,0 });
+        world.AddObject(axisX);
+        Object* axisY = new Object(world.objects[0]->shader, { 0.01, 1000, 0.01 }, { 0,0,0 });
+        world.AddObject(axisY);
+        Object* axisZ = new Object(world.objects[0]->shader, { 0.01, 0.01, 1000 }, { 0,0,0 });
+        world.AddObject(axisZ);
+
+        /////////////////////////////////
+
         //main loop
         while (!glfwWindowShouldClose(window))
         {
@@ -158,9 +191,9 @@ int main(void){
 
             va.Bind();
 
-            demo.run();
+            //demo.run();
 
-            DrawWorld(world, mainCamera);
+            renderer.DrawWorld(world, mainCamera);
 
             /* Swap front and back buffers */
             GLCall(glfwSwapBuffers(window));

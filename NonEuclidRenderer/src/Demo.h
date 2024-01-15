@@ -17,7 +17,6 @@ public:
         world = worldP;
         
         vector<Object> newObjs;
-        vector<Shader> newShaders;
 
         std::random_device rd;
         std::mt19937 gen(rd());

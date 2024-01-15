@@ -22,6 +22,6 @@ class Renderer {
 public:
     void Clear() const;
     void Draw(VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
+    void DrawWorld(World& world, Camera& camera);
 };
 
-void DrawWorld(World& world, Camera& camera);

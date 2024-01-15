@@ -33,7 +33,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
-void DrawWorld(World& world, Camera& camera) {
+void Renderer::DrawWorld(World &world, Camera& camera) {
 
     glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom),
         (float)camera.ScreenWidth / (float)camera.ScreenHeight, 0.1f, 100.0f);
