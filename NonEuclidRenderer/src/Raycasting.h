@@ -3,6 +3,8 @@
 #include "World.h"
 #include "matrix_transform.hpp"
 
+#include <iostream>
+
 using glm::rotate;
 using glm::conjugate;
 using glm::vec4;

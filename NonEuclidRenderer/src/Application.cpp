@@ -152,7 +152,7 @@ int main(void){
         //initialise demo
         Demo demo(&time, &world);
 
-        ////////////////////
+        /////////////////////////////////
 
         Shader* newShader = new Shader("res/shaders/Basic.shader");
         newShader->Bind();
@@ -163,13 +163,19 @@ int main(void){
         Object* newObj = new Object(newShader, { 1,1,1 }, { 3, 0, 0 }, { 0,0,0 });
         world.objects.push_back(newObj);
 
-        world.objects[0]->SetPosition({ 1 ,0 ,0 });
-        world.objects[0]->Rotate({ 0,0,0 });
+        world.objects[0]->SetPosition({ 5 ,5 ,0 });
+        world.objects[0]->Rotate({ 0, 0, 45 });
 
-        Ray ray = Ray({ 0,0,0 }, {0,0,0}, &world);
+        Ray ray = Ray({ 0, 0, 0 }, { 1, 1, 0 }, &world);
+        
+        Object* lineObject = new Object(newShader, { 0.05f, 0.05f, 900.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f });
+        lineObject->SetPosition(ray.hitInfo.hitPosition);
+        float pitch = glm::degrees(asin(ray.direction.y));
+        float yaw = glm::degrees(atan2(-ray.direction.x, -ray.direction.z));
+        lineObject->Rotate({ pitch, yaw, 0.0f });
+        world.objects.push_back(lineObject);
 
-        std::cout << "distance " << ray.hitInfo.hitDistance << " hit at " << ray.hitInfo.hitPosition.x << "," << ray.hitInfo.hitPosition.y << "," << ray.hitInfo.hitPosition.z << std::endl;
-        std::cout << "didhit? " << ray.didHit << std::endl;
+
         Object* axisX = new Object(world.objects[0]->shader, { 1000, 0.01, 0.01 }, { 0,0,0 });
         world.AddObject(axisX);
         Object* axisY = new Object(world.objects[0]->shader, { 0.01, 1000, 0.01 }, { 0,0,0 });
