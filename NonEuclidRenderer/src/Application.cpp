@@ -162,9 +162,15 @@ int main(void){
         newShader->SetUniform4f("u_Color", 1.0, 1.0, 1.0, 1.0);
         newShader->Unbind();
 
-        Object* newObj = new Object(newShader, { 4, 2, 1 }, { 5, 7, 0 }, { 0, 0, 10 });
+        Shader* newShader2 = new Shader("res/shaders/Basic.shader");
+        newShader2->Bind();
+        newShader2->SetUniform1i("u_Texture", 1);
+        newShader2->SetUniform4f("u_Color", 0.0, 1.0, 0.0, 1.0);
+        newShader2->Unbind();
+
+        Object* newObj = new Object(newShader, { 4, 2, 1 }, { 5, 8, 0 }, { 0, 0, 10 });
         world.objects.push_back(newObj);
-        Object* newObj2 = new Object(newShader, { 4, 2, 1 }, { 4, 9, 0 }, { 0, 0, 30 });
+        Object* newObj2 = new Object(newShader2, { 4, 2, 1 }, { 3, 8, 0 }, { 0, 0, 30 });
         world.objects.push_back(newObj2);
 
         newObj2->Translate({0, 3, 0});
@@ -190,8 +196,10 @@ int main(void){
 
             va.Bind();
 
-            newObj2->Translate({0, -0.005, 0});
-            cout << (AreObjsColliding(*newObj, *newObj2) ? "colliding":"") << endl;
+            newObj->Rotate({ 0, 0.05, -0.05 });
+            newObj2->Rotate({ 0.05, -0.05, 0 });
+
+            cout << (AreObjsColliding(*newObj, *newObj2) ? "colliding\n":"");
 
             //demo.run();
 

@@ -20,6 +20,9 @@ public:
 	vec3 objScale = { 1, 1, 1 };
 	vec3 objPosition = { 0, 0, 0 };
 	vec3 objRotation = { 0, 0, 0 }; // Euler angles for rotation
+
+	vec3 objVelocity = { 0, 0, 0 };
+
 	mat4 model = glm::mat4(1.0f);
 	Shader *shader;
 	string texPath;

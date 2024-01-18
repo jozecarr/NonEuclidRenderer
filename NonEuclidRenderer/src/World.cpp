@@ -7,3 +7,7 @@ World::World(vector<Object*> objectsP) {
 void World::AddObject(Object* object) {
 	objects.push_back(object);
 }
+
+void World::Update() {
+
+}

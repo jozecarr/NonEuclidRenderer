@@ -10,4 +10,5 @@ public:
 	vector<Object*> objects = {};
 	World(vector<Object*> objectsP = {});
 	void AddObject(Object* object);
+	void Update();
 };
