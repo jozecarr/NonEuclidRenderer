@@ -3,13 +3,17 @@
 #include "Shader.h"
 #include "matrix_transform.hpp"
 #include <string>
+#include <vector>
 
 using glm::vec3;
+using glm::vec4;
 using glm::mat4;
 using glm::translate;
 using glm::scale;
 using glm::radians;
 using std::string;
+using std::vector;
+
 
 class Object {
 public:
@@ -33,4 +37,6 @@ public:
 	void Translate(vec3 translation);
 	void Rotate(vec3 rotation);
 	void Grow(vec3 growth);
+
+	vector<vec3> GetVertices();
 };

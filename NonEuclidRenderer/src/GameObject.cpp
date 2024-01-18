@@ -3,7 +3,7 @@
 Object::Object(Shader *shaderP, vec3 objScaleP, vec3 objPositionP, vec3 objRotationP) {
 	objScale = objScaleP;
 	objPosition = objPositionP;
-	objRotation = objRotationP;
+	objRotation = objRotationP; //in eulerangles
 	shader = shaderP;
 
 	UpdateModelMatrix();
@@ -44,4 +44,27 @@ void Object::Rotate(vec3 rotation){
 
 void Object::Grow(vec3 growth){
 	SetScale(objScale + growth);
+}
+
+vector<vec3> Object::GetVertices() {
+	vector<vec3> defaultVertices = {
+		vec3(-0.5f, -0.5f, -0.5f),
+		vec3(0.5f, -0.5f, -0.5f),
+		vec3(0.5f, 0.5f, -0.5f),
+		vec3(-0.5f, 0.5f, -0.5f),
+		vec3(-0.5f, -0.5f, 0.5f),
+		vec3(0.5f, -0.5f, 0.5f),
+		vec3(0.5f, 0.5f, 0.5f),
+		vec3(-0.5f, 0.5f, 0.5f)
+	};
+
+	// Apply transformations to the default vertices
+	vector<vec3> transformedVertices;
+	for (const auto& vertex : defaultVertices) {
+		// Apply scale, rotation, and translation in that order
+		vec4 transformedVertex = model * vec4(vertex, 1.0f);
+		transformedVertices.push_back(vec3(transformedVertex));
+	}
+
+	return transformedVertices;
 }

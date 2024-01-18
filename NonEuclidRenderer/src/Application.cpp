@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
+using std::cout; using std::endl;
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -19,7 +20,8 @@
 #include "GameObject.h"
 #include "World.h"
 #include "Time.h"
-#include "Raycasting.h"
+//#include "Raycasting.h"
+#include "Collision.h"
 
 #include "Demo.h"
 
@@ -28,7 +30,7 @@
 const unsigned int SCREEN_WIDTH = 2000;
 const unsigned int SCREEN_HEIGHT = 2000;
 
-Camera mainCamera(vec3(0.0f, 0.0f, 3.0f));
+Camera mainCamera(vec3(4.5f, 10.0f, 14.0f));
 Camera secondaryCamera(vec3(10.0f, 10.0f, -5.0f));
 Camera* cameras[2] = { &mainCamera, &secondaryCamera };
 
@@ -160,21 +162,12 @@ int main(void){
         newShader->SetUniform4f("u_Color", 1.0, 1.0, 1.0, 1.0);
         newShader->Unbind();
 
-        Object* newObj = new Object(newShader, { 1,1,1 }, { 3, 0, 0 }, { 0,0,0 });
+        Object* newObj = new Object(newShader, { 4, 2, 1 }, { 5, 7, 0 }, { 0, 0, 10 });
         world.objects.push_back(newObj);
+        Object* newObj2 = new Object(newShader, { 4, 2, 1 }, { 4, 9, 0 }, { 0, 0, 30 });
+        world.objects.push_back(newObj2);
 
-        world.objects[0]->SetPosition({ 5 ,5 ,0 });
-        world.objects[0]->Rotate({ 0, 0, 45 });
-
-        Ray ray = Ray({ 0, 0, 0 }, { 1, 1, 0 }, &world);
-        
-        Object* lineObject = new Object(newShader, { 0.05f, 0.05f, 900.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f });
-        lineObject->SetPosition(ray.hitInfo.hitPosition);
-        float pitch = glm::degrees(asin(ray.direction.y));
-        float yaw = glm::degrees(atan2(-ray.direction.x, -ray.direction.z));
-        lineObject->Rotate({ pitch, yaw, 0.0f });
-        world.objects.push_back(lineObject);
-
+        newObj2->Translate({0, 3, 0});
 
         Object* axisX = new Object(world.objects[0]->shader, { 1000, 0.01, 0.01 }, { 0,0,0 });
         world.AddObject(axisX);
@@ -196,6 +189,9 @@ int main(void){
             GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 
             va.Bind();
+
+            newObj2->Translate({0, -0.005, 0});
+            cout << (AreObjsColliding(*newObj, *newObj2) ? "colliding":"") << endl;
 
             //demo.run();
 
