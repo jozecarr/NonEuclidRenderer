@@ -21,7 +21,6 @@ using std::cout; using std::endl;
 #include "World.h"
 #include "Time.h"
 //#include "Raycasting.h"
-#include "Collision.h"
 
 #include "Demo.h"
 
@@ -168,18 +167,17 @@ int main(void){
         newShader2->SetUniform4f("u_Color", 0.0, 1.0, 0.0, 1.0);
         newShader2->Unbind();
 
-        Object* newObj = new Object(newShader, { 4, 2, 1 }, { 5, 8, 0 }, { 0, 0, 10 });
-        world.objects.push_back(newObj);
-        Object* newObj2 = new Object(newShader2, { 4, 2, 1 }, { 3, 8, 0 }, { 0, 0, 30 });
-        world.objects.push_back(newObj2);
+        Object* newObj = new Object(newShader, { 1, 1, 1 }, { 0, 0, 0 }, { 0, 0, 0 });
+        world.AddObject(newObj);
+        Object* newObj2 = new Object(newShader2, { 1, 1, 1 }, { 10, 0, 0 }, { 0, 30, 0 });
+        newObj2->objVelocity = {-1,0,0 };
+        world.AddObject(newObj2);
 
-        newObj2->Translate({0, 3, 0});
-
-        Object* axisX = new Object(world.objects[0]->shader, { 1000, 0.01, 0.01 }, { 0,0,0 });
+        Object* axisX = new Object(world.objects[0]->shader, { 1000, 0.01, 0.01 }, {0,0,0}, {0,0,0}, false);
         world.AddObject(axisX);
-        Object* axisY = new Object(world.objects[0]->shader, { 0.01, 1000, 0.01 }, { 0,0,0 });
+        Object* axisY = new Object(world.objects[0]->shader, { 0.01, 1000, 0.01 }, {0,0,0}, {0,0,0}, false);
         world.AddObject(axisY);
-        Object* axisZ = new Object(world.objects[0]->shader, { 0.01, 0.01, 1000 }, { 0,0,0 });
+        Object* axisZ = new Object(world.objects[0]->shader, { 0.01, 0.01, 1000 }, {0,0,0}, {0,0,0}, false);
         world.AddObject(axisZ);
 
         /////////////////////////////////
@@ -196,10 +194,7 @@ int main(void){
 
             va.Bind();
 
-            newObj->Rotate({ 0, 0.05, -0.05 });
-            newObj2->Rotate({ 0.05, -0.05, 0 });
-
-            cout << (AreObjsColliding(*newObj, *newObj2) ? "colliding\n":"");
+            world.Update(time.GetDeltaTime());
 
             //demo.run();
 

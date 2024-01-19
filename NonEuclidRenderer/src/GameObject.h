@@ -17,6 +17,7 @@ using std::vector;
 
 class Object {
 public:
+	int objID = 0;
 	vec3 objScale = { 1, 1, 1 };
 	vec3 objPosition = { 0, 0, 0 };
 	vec3 objRotation = { 0, 0, 0 }; // Euler angles for rotation
@@ -27,7 +28,9 @@ public:
 	Shader *shader;
 	string texPath;
 
-	Object(Shader *shader, vec3 objScaleP = { 1, 1, 1 }, vec3 objPositionP = { 0, 0, 0 }, vec3 objRotationP = { 0, 0, 0 });
+	bool collidable = true;
+
+	Object(Shader* shader, vec3 objScaleP = { 1, 1, 1 }, vec3 objPositionP = { 0, 0, 0 }, vec3 objRotationP = { 0, 0, 0 }, bool collidableP = true);
 
 	//std::string& texPath;
 

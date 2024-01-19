@@ -1,10 +1,11 @@
 #include "GameObject.h"
 
-Object::Object(Shader *shaderP, vec3 objScaleP, vec3 objPositionP, vec3 objRotationP) {
+Object::Object(Shader *shaderP, vec3 objScaleP, vec3 objPositionP, vec3 objRotationP, bool collidableP) {
 	objScale = objScaleP;
 	objPosition = objPositionP;
 	objRotation = objRotationP; //in eulerangles
 	shader = shaderP;
+	collidable = collidableP;
 
 	UpdateModelMatrix();
 }

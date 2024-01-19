@@ -10,5 +10,6 @@ public:
 	vector<Object*> objects = {};
 	World(vector<Object*> objectsP = {});
 	void AddObject(Object* object);
-	void Update();
+	void Update(float deltaTime);
+	int objCount = 0;
 };
