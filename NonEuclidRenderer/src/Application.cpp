@@ -20,7 +20,6 @@ using std::cout; using std::endl;
 #include "GameObject.h"
 #include "World.h"
 #include "Time.h"
-//#include "Raycasting.h"
 
 #include "Demo.h"
 
@@ -169,9 +168,11 @@ int main(void){
 
         Object* newObj = new Object(newShader, { 1, 1, 1 }, { 0, 0, 0 }, { 0, 0, 0 });
         world.AddObject(newObj);
-        Object* newObj2 = new Object(newShader2, { 1, 1, 1 }, { 10, 0, 0 }, { 0, 30, 0 });
-        newObj2->objVelocity = {-1,0,0 };
+        Object* newObj2 = new Object(newShader2, { 1, 4, 1 }, { 2, 0, 0 }, { 0, 30, 0 });
         world.AddObject(newObj2);
+
+        //newObj2->objVelocity = {-1,0,0 };
+        newObj2->objAngVelocity = { 15, 10, 5 };
 
         Object* axisX = new Object(world.objects[0]->shader, { 1000, 0.01, 0.01 }, {0,0,0}, {0,0,0}, false);
         world.AddObject(axisX);
