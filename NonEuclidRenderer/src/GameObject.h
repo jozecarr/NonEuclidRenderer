@@ -14,6 +14,15 @@ using glm::radians;
 using std::string;
 using std::vector;
 
+class ObjectProperties {
+public:
+	bool collidable = false;
+	bool hasGravity = false;
+	ObjectProperties(bool collidableP = false, bool hasGravityP = false) {
+		collidable = collidableP;
+		hasGravity = hasGravityP;
+	};
+};
 
 class Object {
 public:
@@ -28,9 +37,9 @@ public:
 	Shader *shader;
 	string texPath;
 
-	bool collidable = true;
+	ObjectProperties properties = {0,0};
 
-	Object(Shader* shader, vec3 objScaleP = { 1, 1, 1 }, vec3 objPositionP = { 0, 0, 0 }, vec3 objRotationP = { 0, 0, 0 }, bool collidableP = true);
+	Object(Shader* shader, vec3 objScaleP = { 1, 1, 1 }, vec3 objPositionP = { 0, 0, 0 }, vec3 objRotationP = { 0, 0, 0 }, ObjectProperties propertiesP = {0,0});
 
 	//std::string& texPath;
 
@@ -44,5 +53,5 @@ public:
 	void Rotate(vec3 rotation);
 	void Grow(vec3 growth);
 
-	vector<vec3> GetVertices();
+	vector<vec3> GetVertices() ;
 };

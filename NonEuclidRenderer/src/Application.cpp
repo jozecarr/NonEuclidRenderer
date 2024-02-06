@@ -29,7 +29,7 @@ using std::cout; using std::endl;
 const unsigned int SCREEN_WIDTH = 2000;
 const unsigned int SCREEN_HEIGHT = 2000;
 
-Camera mainCamera(vec3(4.5f, 10.0f, 14.0f));
+Camera mainCamera(vec3(4.5f, -30.0f, 14.0f));
 Camera secondaryCamera(vec3(10.0f, 10.0f, -5.0f));
 Camera* cameras[2] = { &mainCamera, &secondaryCamera };
 
@@ -167,17 +167,16 @@ int main(void){
         newShader2->SetUniform4f("u_Color", 0.0, 1.0, 0.0, 1.0);
         newShader2->Unbind();
 
-        Object* newObj = new Object(newShader, { 1, 1, 1 }, { 0, 0, 0 }, { 0, 0, 0 });
+        Object* newObj = new Object(newShader, { 20, 0.5f, 20 }, { 0, -40, 0 }, { 0, 0, 0 }, {1,0});
         world.AddObject(newObj);
-        Object* newObj2 = new Object(newShader2, { 1, 1, 1 }, { 10, 0, 0 }, { 0, 30, 0 });
-        newObj2->objVelocity = {-1,0,0 };
+        Object* newObj2 = new Object(newShader2, { 1, 1, 1 }, { 3, 1, 2 }, { 0, 30, 0 }, {1,1});
         world.AddObject(newObj2);
 
-        Object* axisX = new Object(world.objects[0]->shader, { 1000, 0.01, 0.01 }, {0,0,0}, {0,0,0}, false);
+        Object* axisX = new Object(world.objects[0]->shader, { 1000, 0.01, 0.01 }, { 0,0,0 }, { 0,0,0 });
         world.AddObject(axisX);
-        Object* axisY = new Object(world.objects[0]->shader, { 0.01, 1000, 0.01 }, {0,0,0}, {0,0,0}, false);
+        Object* axisY = new Object(world.objects[0]->shader, { 0.01, 1000, 0.01 }, {0,0,0}, {0,0,0});
         world.AddObject(axisY);
-        Object* axisZ = new Object(world.objects[0]->shader, { 0.01, 0.01, 1000 }, {0,0,0}, {0,0,0}, false);
+        Object* axisZ = new Object(world.objects[0]->shader, { 0.01, 0.01, 1000 }, {0,0,0}, {0,0,0});
         world.AddObject(axisZ);
 
         /////////////////////////////////

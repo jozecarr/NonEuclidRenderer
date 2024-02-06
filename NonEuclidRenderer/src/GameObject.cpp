@@ -1,11 +1,11 @@
 #include "GameObject.h"
 
-Object::Object(Shader *shaderP, vec3 objScaleP, vec3 objPositionP, vec3 objRotationP, bool collidableP) {
+Object::Object(Shader *shaderP, vec3 objScaleP, vec3 objPositionP, vec3 objRotationP, ObjectProperties propertiesP) {
 	objScale = objScaleP;
 	objPosition = objPositionP;
 	objRotation = objRotationP; //in eulerangles
 	shader = shaderP;
-	collidable = collidableP;
+	properties = propertiesP;
 
 	UpdateModelMatrix();
 }
@@ -47,7 +47,7 @@ void Object::Grow(vec3 growth){
 	SetScale(objScale + growth);
 }
 
-vector<vec3> Object::GetVertices() {
+vector<vec3> Object::GetVertices () {
 	vector<vec3> defaultVertices = {
 		vec3(-0.5f, -0.5f, -0.5f),
 		vec3(0.5f, -0.5f, -0.5f),

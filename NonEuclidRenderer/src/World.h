@@ -7,9 +7,12 @@ using std::vector;
 
 class World {
 public:
-	vector<Object*> objects = {};
-	World(vector<Object*> objectsP = {});
+	vector<Object*> objects = {};	
+	int objCount = 0;
+	float gravityStrength = -9.8f;
+	World(vector<Object*> objectsP = {}, float gravityStrengthP = -9.8f);
 	void AddObject(Object* object);
 	void Update(float deltaTime);
-	int objCount = 0;
+	void HandleCollisions(float deltaTime);
+	void ApplyGravity(float deltaTime);
 };

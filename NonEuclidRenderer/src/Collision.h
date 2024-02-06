@@ -12,10 +12,7 @@ using std::numeric_limits;
 using glm::min;
 using glm::max;
 
-bool AreObjsColliding(Object& obj1, Object& obj2) {
-    //if this is not performative, make it so object itself keeps track of its vertices and instead here just fetch them
-    const vector<vec3> cuboid1 = obj1.GetVertices();
-    const vector<vec3> cuboid2 = obj2.GetVertices();
+bool AreObjsColliding(const vector<vec3> cuboid1, const vector<vec3> cuboid2) {
 
     // Function to calculate the separating axis
     auto getSepAxis = [](const vec3& axis, const vector<vec3>& cuboid1, const vector<vec3>& cuboid2) {
