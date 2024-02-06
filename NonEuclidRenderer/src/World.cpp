@@ -14,12 +14,13 @@ void World::AddObject(Object* object) {
 	object->objID = objCount++;
 }
 
-bool WillObjsCollide(Object* obj, Object* otherObj, float deltaTime) {
-	vector<vec3> transedVertices[2];
+bool WillObjsCollide(Object* obj, Object* otherObj, float deltaTime) {  //checks if two will be colliding in the next frame
+	vector<vec3> transedVertices[2]; // 0 = obj, 1 = otherObj
 	for (int i=0;i<2;i++){
 		for (const vec3 vertex:(i==0?obj->GetVertices():otherObj->GetVertices())) {
-			transedVertices[i].push_back(vertex+(i==0?obj->objVelocity:otherObj->objVelocity)*deltaTime);}}
-	return AreObjsColliding(transedVertices[0], transedVertices[1]);
+			transedVertices[i].push_back(vertex+(i==0?obj->objVelocity:otherObj->objVelocity)*deltaTime);
+		}
+	} return AreObjsColliding(transedVertices[0], transedVertices[1]);
 }
 
 void World::HandleCollisions(float deltaTime) {

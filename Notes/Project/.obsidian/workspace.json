@@ -1,0 +1,151 @@
+{
+  "main": {
+    "id": "4b071092662cbe52",
+    "type": "split",
+    "children": [
+      {
+        "id": "530031ac43c47fb1",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ec7513130586399a",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "dcf2d1fdefea2d82",
+    "type": "split",
+    "children": [
+      {
+        "id": "9b98ddb07801fb85",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "bdb844d2474c5f30",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "b27d1c9a686778ec",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "33cd5188d6bf7d55",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200
+  },
+  "right": {
+    "id": "528ed344fde9c9d2",
+    "type": "split",
+    "children": [
+      {
+        "id": "f50c03218a3a4632",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b3e103d88327543e",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "b44cd0601bac6ae9",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "923b6d1f53a8b84d",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "aa2a533457961a7f",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "ec7513130586399a",
+  "lastOpenFiles": [
+    "bool AreObjsColliding(Object, Object).md",
+    "Separating Axis Theorem.md",
+    "Collision.h.md",
+    "Project.md",
+    "Object.md",
+    "Collision Detection.md",
+    "Welcome.md"
+  ]
+}
