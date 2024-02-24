@@ -1,9 +1,9 @@
 #pragma once
 #include "glm.hpp"
-#include "Shader.h"
 #include "matrix_transform.hpp"
 #include <string>
 #include <vector>
+#include "Shader.h"
 
 using glm::vec3;
 using glm::vec4;

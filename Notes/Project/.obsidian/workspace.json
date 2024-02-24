@@ -4,18 +4,155 @@
     "type": "split",
     "children": [
       {
-        "id": "530031ac43c47fb1",
+        "id": "5433d2384d807578",
         "type": "tabs",
         "children": [
           {
-            "id": "ec7513130586399a",
+            "id": "d703fe413354a6a7",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "World/World.h.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "bc17a9efbea90876",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "World/World.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "c0bd3c5212ea939e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "World/World.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "948c88fcc11a95f3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "World/HandleCollisions.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "4672c29b1971be5f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Object/Object.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "c167f6b3380f6e5c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Object/GameObject.cpp.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "b34a480bb8561e6b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Object/Object.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "78d4d1767c50f3bf",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Project.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "73a63ca93fd39e1c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Collisions/Collision Detection.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "fb549f639bb8a68a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Collisions/Collision.h.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "fcebf928dedd7564",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Object/Rotate.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "210c6ff8ad2665da",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "World/AddObject.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
-        ]
+        ],
+        "currentTab": 10
       }
     ],
     "direction": "vertical"
@@ -65,7 +202,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 341.5
   },
   "right": {
     "id": "528ed344fde9c9d2",
@@ -81,6 +218,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Object/Rotate.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,6 +235,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Object/Rotate.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -118,7 +257,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "Object/Rotate.md"
+              }
             }
           }
         ]
@@ -138,14 +279,37 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "ec7513130586399a",
+  "active": "fcebf928dedd7564",
   "lastOpenFiles": [
-    "bool AreObjsColliding(Object, Object).md",
-    "Separating Axis Theorem.md",
-    "Collision.h.md",
+    "Object/ObjectProperties.md",
+    "Object/Translate.md",
+    "tocomplete2.png",
+    "tocomplete.png",
+    "World/ApplyGravity.md",
+    "Collisions/Separating Axis Theorem.md",
+    "Collisions/Collision.h.md",
+    "Collisions/Collision Detection.md",
+    "Collisions/bool AreObjsColliding(vector(vec3), vector(vec3)).md",
+    "Object/Object.md",
+    "World/World.md",
+    "Object/GameObject.h.md",
+    "Object/void UpdateModelMatrix().md",
     "Project.md",
-    "Object.md",
-    "Collision Detection.md",
+    "Object/Grow.md",
+    "Object/SetPosition.md",
+    "Object/Rotate.md",
+    "Object/SetRotation.md",
+    "Object/SetScale.md",
+    "World/Update.md",
+    "World/HandleCollisions.md",
+    "World/AddObject.md",
+    "World/World.cpp.md",
+    "Object/GameObject.cpp.md",
+    "World/World.h.md",
+    "Object/ObjectProperties",
+    "Object",
+    "Collisions",
+    "World",
     "Welcome.md"
   ]
 }

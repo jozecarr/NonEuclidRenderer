@@ -121,3 +121,21 @@ int Shader::GetUniformLocation(const std::string& name) {
     m_UniformLocationCache[name] = location;
     return location;
 }
+
+Shader* GetBasicShader(glm::vec3 colour = { 1,1,1 }) {
+    Shader* newShader = new Shader("res/shaders/Basic.shader");
+    newShader->Bind();
+    newShader->SetUniform1i("u_Texture", 1);
+    newShader->SetUniform4f("u_Color", colour.x, colour.y, colour.z, 1.0);
+    newShader->Unbind();
+    return newShader;
+}
+
+Shader* GetInvisibleShader() {
+    Shader* newShader = new Shader("res/shaders/Basic.shader");
+    newShader->Bind();
+    newShader->SetUniform1i("u_Texture", 2);
+    newShader->SetUniform4f("u_Color", 0.0, 0.0, 0.0, 0.0); // Set alpha to 0 for invisibility
+    newShader->Unbind();
+    return newShader;
+}

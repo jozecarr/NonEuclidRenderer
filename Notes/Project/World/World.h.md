@@ -1,0 +1,1 @@
+contains declarations for the [[world]] class

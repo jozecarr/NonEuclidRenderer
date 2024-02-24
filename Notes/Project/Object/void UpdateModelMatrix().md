@@ -1,0 +1,1 @@
+Given the [[Object]]'s position, rotation and scale, set the [[Object]]'s mat4 model field to the correct matrix representing its model in the world.

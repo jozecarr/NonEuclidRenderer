@@ -16,10 +16,12 @@ using std::cout; using std::endl;
 #include "Shader.h"
 #include "Texture.h"
 #include "Camera.h"
-#include "InputCallbacks.h"
+#include "KeyboardInput.h"
+#include "MouseInput.h"
 #include "GameObject.h"
 #include "World.h"
 #include "Time.h"
+#include "Portal.h"
 
 #include "Demo.h"
 
@@ -32,7 +34,7 @@ Camera mainCamera(vec3(4.5f, -30.0f, 14.0f));
 Camera secondaryCamera(vec3(10.0f, 10.0f, -5.0f));
 Camera* cameras[2] = { &mainCamera, &secondaryCamera };
 
-Input input(true, SCR_WIDTH / 2.0f, SCR_HEIGHT / 2.0);
+MouseInput mouseInput(true, SCR_WIDTH / 2.0f, SCR_HEIGHT / 2.0);
 
 float cubeVertices[36 * 5] = {
     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -89,6 +91,7 @@ int main(void){
     if (!glfwInit())
         return -1;
 
+    glEnable(GL_CULL_FACE);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -105,10 +108,17 @@ int main(void){
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
-    // set input callbacks, use lambda functions for input classes funcs
+    //set keyboard input callbacks
+    glfwSetKeyCallback(window, KeyCallback); // or make global
+    /*glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+        ...
+        });*/
+
+
+    // set mouse input callback, use lambda function for mouse input classe func
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, [](GLFWwindow* win, double xpos, double ypos) {
-        input.mouse_callback(win, xpos, ypos, mainCamera);
+        mouseInput.mouse_callback(win, xpos, ypos, mainCamera);
         });
 
     // tell GLFW to capture our mouse
@@ -133,9 +143,6 @@ int main(void){
         layout.Push<float>(2);
         va.AddBuffer(vb, layout);
 
-        Texture texture("res/textures/checks_HD.png");
-        texture.Bind(1);
-
         va.Unbind();
         vb.Unbind();
         //ib.Unbind();
@@ -153,38 +160,41 @@ int main(void){
         Demo demo(&time, &world);
 
         /////////////////////////////////
+        Texture texture("res/textures/checks_HD.png");
+        texture.Bind(1);
 
-        Shader* newShader = new Shader("res/shaders/Basic.shader");
-        newShader->Bind();
-        newShader->SetUniform1i("u_Texture", 1);
-        newShader->SetUniform4f("u_Color", 1.0, 1.0, 1.0, 1.0);
-        newShader->Unbind();
+        Shader* newShader1 = GetBasicShader({1,1,1});
+        Shader* newShader2 = GetBasicShader({1,1,0});
+        Shader* newShader3 = GetBasicShader({1,0,1});
+        Shader* newShader4 = GetBasicShader({1,0,0});
+        Shader* newShader5 = GetBasicShader({0,1,1});
+        Shader* newShader6 = GetBasicShader({0,1,0});
+        Shader* newShader7 = GetBasicShader({0,0,1});
+        Shader* newShader8 = GetBasicShader({0,0,0});
 
-        Shader* newShader2 = new Shader("res/shaders/Basic.shader");
-        newShader2->Bind();
-        newShader2->SetUniform1i("u_Texture", 1);
-        newShader2->SetUniform4f("u_Color", 0.0, 1.0, 0.0, 1.0);
-        newShader2->Unbind();
-
-        Object* newObj = new Object(newShader, { 20, 0.5f, 20 }, { 0, -40, 0 }, { 0, 0, 0 }, {1,0});
+        Object* newObj = new Object(newShader2, { 20, 0.5f, 20 }, { 0, -40, 0 }, { 0, 0, 0 }, {1,0});
         world.AddObject(newObj);
-        Object* newObj2 = new Object(newShader2, { 1, 1, 1 }, { 3, 1, 2 }, { 0, 30, 0 }, {1,1});
+        Object* newObj2 = new Object(newShader3, { 1, 1, 1 }, { 3, 1, 2 }, { 0, 30, 0 }, {1,1});
         world.AddObject(newObj2);
+        Object* newObj3 = new Object(newShader4, { 1, 1, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0 });
+        world.AddObject(newObj3);
 
-        Object* axisX = new Object(world.objects[0]->shader, { 1000, 0.01, 0.01 }, {0,0,0}, {0,0,0}, false);
-        world.AddObject(axisX);
-        Object* axisY = new Object(world.objects[0]->shader, { 0.01, 1000, 0.01 }, {0,0,0}, {0,0,0});
+        Object* axisX = new Object(newShader1, { 1000, 0.01, 0.01 }, {0,0,0}, {0,0,0});
+        world.AddObject(axisX);               
+        Object* axisY = new Object(newShader1, { 0.01, 1000, 0.01 }, {0,0,0}, {0,0,0});
         world.AddObject(axisY);
-        Object* axisZ = new Object(world.objects[0]->shader, { 0.01, 0.01, 1000 }, {0,0,0}, {0,0,0});
+        Object* axisZ = new Object(newShader1, { 0.01, 0.01, 1000 }, {0,0,0}, {0,0,0});
         world.AddObject(axisZ);
 
         /////////////////////////////////
 
+        
+        printf("starting\n");
         //main loop
         while (!glfwWindowShouldClose(window))
         {
             time.Update();
-            input.ProcessInput(window, mainCamera, time.GetDeltaTime());
+            mainCamera.ProcessKeyboard(keyboardInput, time.GetDeltaTime());
 
             /* Render here */
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);

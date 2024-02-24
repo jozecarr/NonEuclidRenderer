@@ -1,0 +1,1 @@
+contains definitions for the functions of the [[world]] class

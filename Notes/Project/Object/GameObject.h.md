@@ -1,0 +1,1 @@
+Contains declarations for the [[Object]] class.

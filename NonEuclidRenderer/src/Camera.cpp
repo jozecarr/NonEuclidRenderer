@@ -1,9 +1,11 @@
 #include "Camera.h"
 
 #include <iostream>
+using std::cout;
+using std::string;
 
 // constructor with vectors
-Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch, int scrWidth, int scrHeight) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), SpeedMult(SPEED_MULT), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch, int scrWidth, int scrHeight) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), FastSpeed(SPEED_FAST), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
 {
     Position = position;
     WorldUp = up;
@@ -14,7 +16,7 @@ Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch, int scr
     updateCameraVectors();
 }
 // constructor with scalar values
-Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch, int scrWidth, int scrHeight) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), SpeedMult(SPEED_MULT), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch, int scrWidth, int scrHeight) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), FastSpeed(SPEED_FAST), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
 {
     Position = glm::vec3(posX, posY, posZ);
     WorldUp = glm::vec3(upX, upY, upZ);
@@ -31,21 +33,19 @@ glm::mat4 Camera::GetViewMatrix()
     return glm::lookAt(Position, Position + Front, Up);
 }
 
-// processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
-void Camera::ProcessKeyboard(Camera_Movement input, float deltaTime)
-{
+// processes input received from any keyboard-like input system.  input parameter in the form of camera defined ENUM (to abstract it from windowing systems
+void Camera::ProcessKeyboard(KeyboardInput input, float deltaTime) {
+    printf("checking\n");
     float velocity = MovementSpeed * deltaTime;
-    if (input == SHIFT) {
-        velocity *= SpeedMult;
-        std::cout << "shift" << std::endl;
-    }
-    if (input == FORWARD)
+    if (input.IsKeyDown(GLFW_KEY_LEFT_SHIFT))
+        velocity = FastSpeed * deltaTime;
+    if (input.IsKeyDown(GLFW_KEY_W))
         Position += Front * velocity;
-    if (input == BACKWARD)
+    if (input.IsKeyDown(GLFW_KEY_S))
         Position -= Front * velocity;
-    if (input == LEFT)
+    if (input.IsKeyDown(GLFW_KEY_A))
         Position -= Right * velocity;
-    if (input == RIGHT)
+    if (input.IsKeyDown(GLFW_KEY_D))
         Position += Right * velocity;
 }
 

@@ -1,1 +1,0 @@
-[[bool AreObjsColliding(Object, Object)]]
