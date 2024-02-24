@@ -1,1 +1,2 @@
-using https://www.youtube.com/playlist?list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2 and https://learnopengl.com/ttesting 
+Third year university project.
+An OpenGL C++ game engine that aims to have some non-euclidean geometries implemented by the end of the project.
