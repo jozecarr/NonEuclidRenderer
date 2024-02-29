@@ -35,6 +35,7 @@ Camera secondaryCamera(vec3(10.0f, 10.0f, -5.0f));
 Camera* cameras[2] = { &mainCamera, &secondaryCamera };
 
 MouseInput mouseInput(true, SCR_WIDTH / 2.0f, SCR_HEIGHT / 2.0);
+KeyboardInput keyboardInput = KeyboardInput();
 
 float cubeVertices[36 * 5] = {
     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -108,18 +109,19 @@ int main(void){
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
-    //set keyboard input callbacks
-    glfwSetKeyCallback(window, KeyCallback); // or make global
-    /*glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
-        ...
-        });*/
 
+    glfwSetCursorPosCallback(window, [](GLFWwindow* win, double xpos, double ypos) {
+        mouseInput.mouse_callback(win, xpos, ypos, mainCamera);
+    });
+
+    //set keyboard input callbacks
+    glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+        keyboardInput.KeyCallback(window, key, scancode, action, mods);
+    });
 
     // set mouse input callback, use lambda function for mouse input classe func
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    glfwSetCursorPosCallback(window, [](GLFWwindow* win, double xpos, double ypos) {
-        mouseInput.mouse_callback(win, xpos, ypos, mainCamera);
-        });
+
 
     // tell GLFW to capture our mouse
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -187,7 +189,6 @@ int main(void){
         world.AddObject(axisZ);
 
         /////////////////////////////////
-
         
         printf("starting\n");
         //main loop

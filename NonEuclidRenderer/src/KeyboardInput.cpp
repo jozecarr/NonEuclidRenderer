@@ -43,15 +43,17 @@ bool KeyboardInput::IsKeyDown(int key) {
     return false;
 }
 
-void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods ) {
+void KeyboardInput::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods ) {
     printf("calback\n");
-    KeyboardInput* input = static_cast<KeyboardInput*>(glfwGetWindowUserPointer(window));
-    input = new KeyboardInput();
     
     if (action == GLFW_PRESS) {
-        input->KeyDownEvent(key);
+        KeyDownEvent(key);
     }
     else if (action == GLFW_RELEASE) {
-        input->KeyUpEvent(key);
+        KeyUpEvent(key);
+    }
+
+    if (key == GLFW_KEY_ESCAPE) {
+        glfwSetWindowShouldClose(window, GLFW_TRUE);
     }
 }

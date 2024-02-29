@@ -140,6 +140,16 @@
             }
           },
           {
+            "id": "c55155270f7f8757",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.5.8"
+              }
+            }
+          },
+          {
             "id": "210c6ff8ad2665da",
             "type": "leaf",
             "state": {
@@ -152,7 +162,7 @@
             }
           }
         ],
-        "currentTab": 10
+        "currentTab": 11
       }
     ],
     "direction": "vertical"
@@ -279,7 +289,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "fcebf928dedd7564",
+  "active": "c55155270f7f8757",
   "lastOpenFiles": [
     "Object/ObjectProperties.md",
     "Object/Translate.md",

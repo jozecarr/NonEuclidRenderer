@@ -15,7 +15,5 @@ public:
     void KeyUpEvent(int key);
     bool IsKeyDown(int key);
     std::vector<keyval> keysDown = {};
+    void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 };
-
-// GLFW keyboard callback function
-void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
