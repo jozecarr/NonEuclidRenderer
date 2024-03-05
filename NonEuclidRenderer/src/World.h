@@ -14,6 +14,7 @@ public:
 	World(vector<Object*> objectsP = {}, float gravityStrengthP = -9.8f);
 	void AddObject(Object* object);
 	void Update(float deltaTime);
+	void AddAxes();
 	void HandleCollisions(float deltaTime);
 	void ApplyGravity(float deltaTime);
 };

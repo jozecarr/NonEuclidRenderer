@@ -30,7 +30,8 @@ void World::HandleCollisions(float deltaTime) {
 				if (otherObj->objID != obj->objID && otherObj->properties.collidable) { // for every other object
 					if (!WillObjsCollide(obj, otherObj, deltaTime)) { // if the object is not going to collide with any other object
 						obj->Translate(obj->objVelocity * deltaTime); //apply the movement
-					} else { obj->objVelocity = { 0,0,0 }; }
+						obj->isColliding = false;
+					} else { obj->objVelocity = { 0,0,0 }; obj->isColliding = true;}
 				}
 			}
 		}
@@ -46,4 +47,14 @@ void World::ApplyGravity(float deltaTime) {
 void World::Update(float deltaTime) {
 	ApplyGravity(deltaTime);
 	HandleCollisions(deltaTime);
+}
+
+void World::AddAxes() {
+	Shader* axisShader = GetBasicShader({ 0,0,0 });
+	Object* axisX = new Object(axisShader, { 1000, 0.01, 0.01 }, { 0,0,0 }, { 0,0,0 });
+	AddObject(axisX);
+	Object* axisY = new Object(axisShader, { 0.01, 1000, 0.01 }, { 0,0,0 }, { 0,0,0 });
+	AddObject(axisY);
+	Object* axisZ = new Object(axisShader, { 0.01, 0.01, 1000 }, { 0,0,0 }, { 0,0,0 });
+	AddObject(axisZ);
 }

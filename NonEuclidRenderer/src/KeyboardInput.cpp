@@ -3,7 +3,6 @@
 keyval::keyval(int k, int v) { key = k; val = v; };
 
 KeyboardInput::KeyboardInput() {
-    printf("init\n");
     keysDown = {};
     for (int i = 0; i < 5000; i++)
     {
@@ -12,9 +11,6 @@ KeyboardInput::KeyboardInput() {
 }
 
 void KeyboardInput::KeyDownEvent(int key) {
-    printf("keydown\n");
-    printf("%d\n", keysDown.size());
-
     for (keyval& kv: keysDown) {
         if (kv.key == key) {
             kv.val = true; // Update the key state
@@ -44,7 +40,6 @@ bool KeyboardInput::IsKeyDown(int key) {
 }
 
 void KeyboardInput::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods ) {
-    printf("calback\n");
     
     if (action == GLFW_PRESS) {
         KeyDownEvent(key);

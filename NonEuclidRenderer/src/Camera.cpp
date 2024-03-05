@@ -35,7 +35,6 @@ glm::mat4 Camera::GetViewMatrix()
 
 // processes input received from any keyboard-like input system.  input parameter in the form of camera defined ENUM (to abstract it from windowing systems
 void Camera::ProcessKeyboard(KeyboardInput input, float deltaTime) {
-    printf("checking\n");
     float velocity = MovementSpeed * deltaTime;
     if (input.IsKeyDown(GLFW_KEY_LEFT_SHIFT))
         velocity = FastSpeed * deltaTime;

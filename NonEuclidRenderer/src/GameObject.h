@@ -38,6 +38,8 @@ public:
 	Shader *shader;
 	string texPath;
 
+	bool isColliding = false;
+
 	ObjectProperties properties = {0,0};
 
 	Object(Shader* shader, vec3 objScaleP = { 1, 1, 1 }, vec3 objPositionP = { 0, 0, 0 }, vec3 objRotationP = { 0, 0, 0 }, ObjectProperties propertiesP = {0,0});

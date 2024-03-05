@@ -181,16 +181,8 @@ int main(void){
         Object* newObj3 = new Object(newShader4, { 1, 1, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0 });
         world.AddObject(newObj3);
 
-        Object* axisX = new Object(newShader1, { 1000, 0.01, 0.01 }, {0,0,0}, {0,0,0});
-        world.AddObject(axisX);               
-        Object* axisY = new Object(newShader1, { 0.01, 1000, 0.01 }, {0,0,0}, {0,0,0});
-        world.AddObject(axisY);
-        Object* axisZ = new Object(newShader1, { 0.01, 0.01, 1000 }, {0,0,0}, {0,0,0});
-        world.AddObject(axisZ);
-
         /////////////////////////////////
         
-        printf("starting\n");
         //main loop
         while (!glfwWindowShouldClose(window))
         {
@@ -198,7 +190,7 @@ int main(void){
             mainCamera.ProcessKeyboard(keyboardInput, time.GetDeltaTime());
 
             /* Render here */
-            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            glClearColor(0.41f, 0.63f, 1.0f, 1.0f);
             GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 
             va.Bind();
@@ -206,7 +198,9 @@ int main(void){
             world.Update(time.GetDeltaTime());
 
             //demo.run();
-
+            
+            //cout << "velocity down: " << newObj2->objVelocity.y << " colliding: " << (newObj2->isColliding?"yes":"no") << "\n";
+            
             renderer.DrawWorld(world, mainCamera);
 
             /* Swap front and back buffers */
