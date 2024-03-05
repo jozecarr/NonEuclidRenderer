@@ -47,5 +47,7 @@ void Renderer::DrawWorld(World &world, Camera& camera) {
         obj->shader->SetUniformMat4("model", obj->model);
 
         glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        obj->shader->Unbind();
     }
 }

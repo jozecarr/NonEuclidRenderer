@@ -152,7 +152,7 @@ int main(void){
         Renderer renderer;
 
         Time time;
-        time.LimitFrameRate(60);
+        time.LimitFrameRate(144);
 
         printf("%s\n", glGetString(GL_VERSION));
 
@@ -165,41 +165,29 @@ int main(void){
         Texture texture("res/textures/checks_HD.png");
         texture.Bind(1);
 
-        Shader* newShader1 = GetBasicShader({1,1,1});
-        Shader* newShader2 = GetBasicShader({1,1,0});
-        Shader* newShader3 = GetBasicShader({1,0,1});
-        Shader* newShader4 = GetBasicShader({1,0,0});
-        Shader* newShader5 = GetBasicShader({0,1,1});
-        Shader* newShader6 = GetBasicShader({0,1,0});
-        Shader* newShader7 = GetBasicShader({0,0,1});
-        Shader* newShader8 = GetBasicShader({0,0,0});
+        Shader* newShader1 = GetBasicShader({1,0.7,0});
+        Shader* newShader2 = GetBasicShader({0,1,0});
 
-        Object* newObj = new Object(newShader2, { 20, 0.5f, 20 }, { 0, -40, 0 }, { 0, 0, 0 }, {1,0});
+        Object* newObj = new Object(newShader1, { 20, 0.5f, 20 }, { 0, -40, 0 }, { 0, 0, 0 }, {1,0});
         world.AddObject(newObj);
-        Object* newObj2 = new Object(newShader3, { 1, 1, 1 }, { 3, 1, 2 }, { 0, 30, 0 }, {1,1});
+        Object* newObj2 = new Object(newShader2, { 1, 1, 1 }, { 3, 1, 2 }, { 0, 30, 0 }, {1,1});
         world.AddObject(newObj2);
-        Object* newObj3 = new Object(newShader4, { 1, 1, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0 });
-        world.AddObject(newObj3);
 
         /////////////////////////////////
         
         //main loop
+
         while (!glfwWindowShouldClose(window))
         {
             time.Update();
-            mainCamera.ProcessKeyboard(keyboardInput, time.GetDeltaTime());
+            mainCamera.ProcessKeyboard(keyboardInput, 5*time.GetDeltaTime());
 
-            /* Render here */
-            glClearColor(0.41f, 0.63f, 1.0f, 1.0f);
+            glClearColor(0.0f, 0.2f, 0.2f, 1.0f);
             GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
-
+            
             va.Bind();
 
             world.Update(time.GetDeltaTime());
-
-            //demo.run();
-            
-            //cout << "velocity down: " << newObj2->objVelocity.y << " colliding: " << (newObj2->isColliding?"yes":"no") << "\n";
             
             renderer.DrawWorld(world, mainCamera);
 
