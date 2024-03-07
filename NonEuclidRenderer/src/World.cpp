@@ -31,7 +31,7 @@ void World::HandleCollisions(float deltaTime) {
 					if (!WillObjsCollide(obj, otherObj, deltaTime)) { // if the object is not going to collide with any other object
 						obj->Translate(obj->objVelocity * deltaTime); //apply the movement
 						obj->isColliding = false;
-					} else { obj->objVelocity = { 0,0,0 }; obj->isColliding = true;}
+					} else { obj->objVelocity = { 0,0,0 }; obj->isColliding = true; }
 				}
 			}
 		}

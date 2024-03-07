@@ -154,14 +154,8 @@ int main(void){
         Time time;
         time.LimitFrameRate(144);
 
-        printf("%s\n", glGetString(GL_VERSION));
-
         World world = World();
-        
-        //initialise demo
-        Demo demo(&time, &world);
 
-        /////////////////////////////////
         Texture texture("res/textures/checks_HD.png");
         texture.Bind(1);
 
@@ -176,16 +170,20 @@ int main(void){
         /////////////////////////////////
         
         //main loop
+        //initialise demo
+        Demo demo(&time, &world);
 
         while (!glfwWindowShouldClose(window))
         {
             time.Update();
-            mainCamera.ProcessKeyboard(keyboardInput, 5*time.GetDeltaTime());
+            mainCamera.ProcessKeyboard(keyboardInput, time.GetDeltaTime());
 
-            glClearColor(0.0f, 0.2f, 0.2f, 1.0f);
+            glClearColor(0.15f, 0.15f, 0.15f, 1.0f);
             GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
             
             va.Bind();
+
+            demo.run();
 
             world.Update(time.GetDeltaTime());
             
