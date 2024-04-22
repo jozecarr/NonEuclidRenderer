@@ -147,31 +147,29 @@ int main(void){
         //time.LimitFrameRate(60);
 
         printf("%s\n", glGetString(GL_VERSION));
-
-        World world = World();
         
         ///////////////////////////////////
+        time.LimitFrameRate(144);
+
+        World world = World();
+
         Texture texture("res/textures/checks_HD.png");
         texture.Bind(1);
 
-        Shader* newShader1 = GetBasicShader({1,1,1});
-        Shader* newShader2 = GetBasicShader({1,1,0});
-        Shader* newShader3 = GetBasicShader({1,0,1});
-        Shader* newShader4 = GetBasicShader({1,0,0});
-        Shader* newShader5 = GetBasicShader({0,1,1});
-        Shader* newShader6 = GetBasicShader({0,1,0});
-        Shader* newShader7 = GetBasicShader({0,0,1});
-        Shader* newShader8 = GetBasicShader({0,0,0});
+        Shader* newShader1 = GetBasicShader({0.0,1,1});
+        Shader* newShader2 = GetBasicShader({0,1,0});
 
-        Object* obj4 = new Object(newShader5, { 10,1,10 }, { 0,0,0 }, { 0,0,0 }, { 1, 0 });
-        world.AddObject(obj4);
+        Object* obj1 = new Object(newShader1, { 10,1,10 }, { 0,0,0 }, { 0,0,0 }, { 1, 0 });
+        world.AddObject(obj1);
 
-        Object* obj5 = new Object(newShader6, { 1,1.5f,3 }, { 0,5,0 }, { 0,30,0 }, { 1, 1 });
-        world.AddObject(obj5);
+        Object* obj2 = new Object(newShader2, { 1,1.5f,3 }, { 0,5,0 }, { 0,30,0 }, { 1, 1 });
+        world.AddObject(obj2);
 
         /////////////////////////////////
 
         //main loop
+        //initialise demo
+        va.Bind();
         while (!glfwWindowShouldClose(window))
         {
             time.Update();

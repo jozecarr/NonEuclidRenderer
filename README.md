@@ -1,1 +1,2 @@
-using https://www.youtube.com/playlist?list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2 and https://learnopengl.com/ttesting 
+Main function located in Application.cpp, to edit and rebuild open in visual studio 2022.
+To run as is, just open "NonEuclidRenderer.exe" in the folder "NonEuclidRenderer".
