@@ -3,22 +3,21 @@
 #include <GLFW/glfw3.h>
 
 class Time {
-private:
+public:
+
     double currentTime;
     double deltaTime;
-    int frameCount;
+    double frameCount;
     bool limitFrameRate;
     double targetFrameRate;
     double targetFrameTime;
 
-public:
     Time();
     ~Time();
 
-
     void Update();
     double GetDeltaTime() const;
-    double GetFrameRate() const;
+    double GetAvgFrameRate() const;
     bool EveryNSeconds(double N) const;
     float GetTime() const;
     void LimitFrameRate(int targetFrameRateP);

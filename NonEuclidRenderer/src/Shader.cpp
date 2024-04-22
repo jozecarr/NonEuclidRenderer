@@ -9,14 +9,14 @@
 #include "Renderer.h"
 
 Shader::Shader(const std::string& filepath)
-	: m_FilePath(filepath), m_RendererId(0)
+	: filePath(filepath), rendererId(0)
 {
     ShaderProgramSource source = ParseShader(filepath);
-    m_RendererId = CreateShader(source.VertexSource, source.FragmentSource);
+    rendererId = CreateShader(source.VertexSource, source.FragmentSource);
 }
 
 Shader::~Shader() {
-    GLCall(glDeleteProgram(m_RendererId));
+    GLCall(glDeleteProgram(rendererId));
 }
 
 ShaderProgramSource Shader::ParseShader(const std::string& filepath) {
@@ -75,7 +75,7 @@ unsigned int Shader::CreateShader(const std::string& vertexShader, const std::st
     unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader);
 
     GLCall(glAttachShader(program, vs));
-     GLCall(glAttachShader(program, fs));
+    GLCall(glAttachShader(program, fs));
     GLCall(glLinkProgram(program));
     GLCall(glValidateProgram(program));
 
@@ -86,7 +86,7 @@ unsigned int Shader::CreateShader(const std::string& vertexShader, const std::st
 }
 
 void Shader::Bind() const {
-    GLCall(glUseProgram(m_RendererId));
+    GLCall(glUseProgram(rendererId));
 }
 
 void Shader::Unbind() const {
@@ -111,14 +111,14 @@ void Shader::SetUniformMat4(const std::string& name, glm::mat4 value)
 }
 
 int Shader::GetUniformLocation(const std::string& name) {
-    if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end())
-        return m_UniformLocationCache[name];
+    if (uniformLocationCache.find(name) != uniformLocationCache.end())
+        return uniformLocationCache[name];
 
-    GLCall(int location = glGetUniformLocation( m_RendererId, name.c_str()));
+    GLCall(int location = glGetUniformLocation( rendererId, name.c_str()));
     if (location == -1)
-        std::cout << "Warning: uniform '" << name << "' doesn't exist!" << std::endl;
+        std::cout << "Warning: uniform '" << name << "' doesn't exist" << std::endl;
 
-    m_UniformLocationCache[name] = location;
+    uniformLocationCache[name] = location;
     return location;
 }
 

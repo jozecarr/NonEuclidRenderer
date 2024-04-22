@@ -1,85 +1,81 @@
 #include "Camera.h"
 
-#include <iostream>
-using std::cout;
-using std::string;
 
-// constructor with vectors
-Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch, int scrWidth, int scrHeight) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), FastSpeed(SPEED_FAST), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+Camera::Camera(vec3 positionP, vec3 upP, float yawP, float pitchP, int scrWidthP, int scrHeightP) 
+    : front({ 0.0f, 0.0f, -1.0f }), normalSpeed(SPEED), fastSpeed(SPEED_FAST), lookSensitivity(SENSITIVITY) 
 {
-    Position = position;
-    WorldUp = up;
-    Yaw = yaw;
-    Pitch = pitch;
-    ScreenWidth = scrWidth;
-    ScreenHeight = scrHeight;
-    updateCameraVectors();
-}
-// constructor with scalar values
-Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch, int scrWidth, int scrHeight) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), FastSpeed(SPEED_FAST), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
-{
-    Position = glm::vec3(posX, posY, posZ);
-    WorldUp = glm::vec3(upX, upY, upZ);
-    Yaw = yaw;
-    Pitch = pitch;
-    ScreenWidth = scrWidth;
-    ScreenHeight = scrHeight;
+    position = positionP;
+    worldUp = upP;
+    yaw = yawP;
+    pitch = pitchP;
+    screenWidth = scrWidthP;
+    screenHeight = scrHeightP;
     updateCameraVectors();
 }
 
-// returns the view matrix calculated using Euler Angles and the LookAt Matrix
-glm::mat4 Camera::GetViewMatrix()
+mat4 Camera::GetViewMatrix()
 {
-    return glm::lookAt(Position, Position + Front, Up);
+    return lookAt(position, position + front, up);
 }
 
-// processes input received from any keyboard-like input system.  input parameter in the form of camera defined ENUM (to abstract it from windowing systems
+// processes input received from keyboard.
 void Camera::ProcessKeyboard(KeyboardInput input, float deltaTime) {
-    float velocity = MovementSpeed * deltaTime;
+    float velocity = normalSpeed * deltaTime;
+    vec3 movement = { 0,0,0 };
+    int keys = 0;
+
     if (input.IsKeyDown(GLFW_KEY_LEFT_SHIFT))
-        velocity = FastSpeed * deltaTime;
-    if (input.IsKeyDown(GLFW_KEY_W))
-        Position += Front * velocity;
-    if (input.IsKeyDown(GLFW_KEY_S))
-        Position -= Front * velocity;
-    if (input.IsKeyDown(GLFW_KEY_A))
-        Position -= Right * velocity;
-    if (input.IsKeyDown(GLFW_KEY_D))
-        Position += Right * velocity;
-}
+        velocity = fastSpeed * deltaTime;
 
-// processes input received from a mouse input system. Expects the offset value in both the x and y input.
-void Camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
-{
-    xoffset *= MouseSensitivity;
-    yoffset *= MouseSensitivity;
-
-    Yaw += xoffset;
-    Pitch += yoffset;
-
-    // make sure that when pitch is out of bounds, screen doesn't get flipped
-    if (constrainPitch)
-    {
-        if (Pitch > 89.0f)
-            Pitch = 89.0f;
-        if (Pitch < -89.0f)
-            Pitch = -89.0f;
+    if (input.IsKeyDown(GLFW_KEY_W)) {
+        movement += front * velocity;
+        keys++;
+    } 
+    if (input.IsKeyDown(GLFW_KEY_S)) {
+        movement -= front * velocity;
+        keys++;
+    }
+    if (input.IsKeyDown(GLFW_KEY_A)) {
+        movement -= right * velocity;
+        keys++;
+    }
+    if (input.IsKeyDown(GLFW_KEY_D)) {
+        movement += right * velocity;
+        keys++;
     }
 
-    // update Front, Right and Up Vectors using the updated Euler angles
+    if (keys == 2) { movement /= sqrt(2); }
+    
+    position += movement;
+}
+
+void Camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
+{
+    xoffset *= lookSensitivity;
+    yoffset *= lookSensitivity;
+
+    yaw += xoffset;
+    pitch += yoffset;
+
+    if (constrainPitch)
+    {
+        if (pitch > 89.0f)
+            pitch = 89.0f;
+        if (pitch < -89.0f)
+            pitch = -89.0f;
+    }
     updateCameraVectors();
 }
 
-// calculates the front vector from the Camera's (updated) Euler Angles
+
+
 void Camera::updateCameraVectors()
 {
-    // calculate the new Front vector
-    glm::vec3 front;
-    front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-    front.y = sin(glm::radians(Pitch));
-    front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-    Front = glm::normalize(front);
-    // also re-calculate the Right and Up vector
-    Right = glm::normalize(glm::cross(Front, WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-    Up = glm::normalize(glm::cross(Right, Front));
+    front = normalize(vec3 {
+        cos(radians(yaw))* cos(radians(pitch)),
+        sin(radians(pitch)),
+        sin(radians(yaw))* cos(radians(pitch))
+    });
+    right = normalize(cross(front, worldUp));
+    up = normalize(cross(right, front));
 }

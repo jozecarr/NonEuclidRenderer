@@ -21,13 +21,6 @@ void Renderer::Clear() const {
     GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 }
 
-void Renderer::Draw(VertexArray& va, const IndexBuffer& ib, const Shader& shader) const {
-    shader.Bind();
-    va.Bind();
-    ib.Bind();
-    GLCall(glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr));
-}
-
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
@@ -35,8 +28,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void Renderer::DrawWorld(World &world, Camera& camera) {
 
-    glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom),
-        (float)camera.ScreenWidth / (float)camera.ScreenHeight, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f),
+        (float)camera.screenWidth / (float)camera.screenHeight, 0.1f, 100.0f);
     glm::mat4 view = camera.GetViewMatrix();
 
     for (const auto& obj : world.objects)

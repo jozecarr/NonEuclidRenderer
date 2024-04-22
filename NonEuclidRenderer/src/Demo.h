@@ -15,23 +15,12 @@ public:
     Demo(Time *timeP, World *worldP) {
         time = timeP;
         world = worldP;
-        
-        vector<Object> newObjs;
 
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_real_distribution<float> randFloat_rot(0.02f, 0.04f);
-
-        randvec_rot = { randFloat_rot(gen), randFloat_rot(gen), randFloat_rot(gen) };
-    }
-
-	void run() {
-        if (time->EveryNSeconds(0.05) && world->objects.size() <= 20000) {
-            // Random number generators
+        while (world->objCount < 5000) {
             std::random_device rd;
             std::mt19937 gen(rd());
             std::uniform_real_distribution<float> randFloatS(0.4f, 2.0f);
-            std::uniform_real_distribution<float> randFloatP(0.0f, 5.0f);
+            std::uniform_real_distribution<float> randFloatP(-10.0f, 10.0f);
             std::uniform_real_distribution<float> randFloatR(0.0f, 360.0f);
             std::uniform_real_distribution<float> randFloatClr(0.0f, 1.0f);
 
@@ -44,20 +33,10 @@ public:
             glm::vec3 randomPosition = { randvecP.x * 20, randvecP.y * 20, randvecP.z * 20 };
             glm::vec3 randomRotation = { randvecR.x * 360, randvecR.y * 360, randvecR.z * 360 };
 
-            // Allocate memory on the heap
-            Shader* newShader = new Shader("res/shaders/Basic.shader");
-            newShader->Bind();
-            newShader->SetUniform1i("u_Texture", 1);
-            newShader->SetUniform4f("u_Color", randvecClr.x, randvecClr.y, randvecClr.z, 1.0);
-            newShader->Unbind();
+            Shader* newShader = GetBasicShader({ randvecClr.x, randvecClr.y, randvecClr.z });
 
-            // Allocate memory on the heap
             Object* newObj = new Object(newShader, randomScale, randomPosition, randomRotation);
-            world->objects.push_back(newObj);
+            world->AddObject(newObj);
         }
-
-        for (const auto obj : world->objects) {
-            obj->Rotate({ randvec_rot.x, randvec_rot.y, randvec_rot.z });
-        }
-	}
+    }
 };

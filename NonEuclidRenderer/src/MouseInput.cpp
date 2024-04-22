@@ -10,8 +10,8 @@ MouseInput::MouseInput(bool fm, float lx, float ly) {
 
 void MouseInput::mouse_callback(GLFWwindow* window, double xposIn, double yposIn, Camera &camera)
 {
-    float xpos = static_cast<float>(xposIn);
-    float ypos = static_cast<float>(yposIn);
+    float xpos = (float)xposIn;
+    float ypos = (float)yposIn;
 
     if (firstMouse)
     {
@@ -21,28 +21,10 @@ void MouseInput::mouse_callback(GLFWwindow* window, double xposIn, double yposIn
     }
 
     float xoffset = xpos - lastX;
-    float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+    float yoffset = lastY - ypos;
 
     lastX = xpos;
     lastY = ypos;
 
     camera.ProcessMouseMovement(xoffset, yoffset);
 }
-
-//void Input::ProcessInput(GLFWwindow* window, Camera &camera, float deltaTime)
-//{
-//    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-//        glfwSetWindowShouldClose(window, true);
-//
-//    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT))
-//        camera.ProcessKeyboard(SHIFT, deltaTime);
-//
-//    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-//        camera.ProcessKeyboard(FORWARD, deltaTime);
-//    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-//        camera.ProcessKeyboard(BACKWARD, deltaTime);
-//    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-//        camera.ProcessKeyboard(LEFT, deltaTime);
-//    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-//        camera.ProcessKeyboard(RIGHT, deltaTime);
-//}

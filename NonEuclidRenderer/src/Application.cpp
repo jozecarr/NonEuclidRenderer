@@ -11,7 +11,6 @@ using std::cout; using std::endl;
 
 #include "VertexBuffer.h"
 #include "VertexBufferLayout.h"
-#include "IndexBuffer.h"
 #include "VertexArray.h"
 #include "Shader.h"
 #include "Texture.h"
@@ -21,16 +20,15 @@ using std::cout; using std::endl;
 #include "GameObject.h"
 #include "World.h"
 #include "Time.h"
-#include "Portal.h"
 
 #include "Demo.h"
 
 //settings
 
-const unsigned int SCREEN_WIDTH = 2000;
-const unsigned int SCREEN_HEIGHT = 2000;
+const unsigned int SCREEN_WIDTH = 1920;
+const unsigned int SCREEN_HEIGHT = 1080;
 
-Camera mainCamera(vec3(4.5f, -30.0f, 14.0f));
+Camera mainCamera(vec3(0.0f, 3.5f, 15.0f));
 Camera secondaryCamera(vec3(10.0f, 10.0f, -5.0f));
 Camera* cameras[2] = { &mainCamera, &secondaryCamera };
 
@@ -83,10 +81,8 @@ float cubeVertices[36 * 5] = {
 
 int main(void){
     GLFWwindow* window;
-    mainCamera.ScreenWidth = SCREEN_WIDTH;
-    mainCamera.ScreenHeight = SCREEN_HEIGHT;
-    secondaryCamera.ScreenWidth = SCREEN_WIDTH;
-    secondaryCamera.ScreenHeight = SCREEN_HEIGHT;
+    mainCamera.screenWidth = SCREEN_WIDTH;
+    mainCamera.screenHeight = SCREEN_HEIGHT;
 
     /* Initialize the library */
     if (!glfwInit())
@@ -109,7 +105,7 @@ int main(void){
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
-
+    // set mouse input callback, use lambda function for mouse input classe func
     glfwSetCursorPosCallback(window, [](GLFWwindow* win, double xpos, double ypos) {
         mouseInput.mouse_callback(win, xpos, ypos, mainCamera);
     });
@@ -119,7 +115,6 @@ int main(void){
         keyboardInput.KeyCallback(window, key, scancode, action, mods);
     });
 
-    // set mouse input callback, use lambda function for mouse input classe func
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 
@@ -144,24 +139,18 @@ int main(void){
         layout.Push<float>(3);
         layout.Push<float>(2);
         va.AddBuffer(vb, layout);
-
-        va.Unbind();
         vb.Unbind();
-        //ib.Unbind();
 
         Renderer renderer;
 
         Time time;
-        time.LimitFrameRate(60);
+        //time.LimitFrameRate(60);
 
         printf("%s\n", glGetString(GL_VERSION));
 
         World world = World();
         
-        //initialise demo
-        Demo demo(&time, &world);
-
-        /////////////////////////////////
+        ///////////////////////////////////
         Texture texture("res/textures/checks_HD.png");
         texture.Bind(1);
 
@@ -174,39 +163,33 @@ int main(void){
         Shader* newShader7 = GetBasicShader({0,0,1});
         Shader* newShader8 = GetBasicShader({0,0,0});
 
-        Object* newObj = new Object(newShader2, { 20, 0.5f, 20 }, { 0, -40, 0 }, { 0, 0, 0 }, {1,0});
-        world.AddObject(newObj);
-        Object* newObj2 = new Object(newShader3, { 1, 1, 1 }, { 3, 1, 2 }, { 0, 30, 0 }, {1,1});
-        world.AddObject(newObj2);
-        Object* newObj3 = new Object(newShader4, { 1, 1, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0 });
-        world.AddObject(newObj3);
+        Object* obj4 = new Object(newShader5, { 10,1,10 }, { 0,0,0 }, { 0,0,0 }, { 1, 0 });
+        world.AddObject(obj4);
+
+        Object* obj5 = new Object(newShader6, { 1,1.5f,3 }, { 0,5,0 }, { 0,30,0 }, { 1, 1 });
+        world.AddObject(obj5);
 
         /////////////////////////////////
-        
+
         //main loop
         while (!glfwWindowShouldClose(window))
         {
             time.Update();
             mainCamera.ProcessKeyboard(keyboardInput, time.GetDeltaTime());
 
-            /* Render here */
-            glClearColor(0.41f, 0.63f, 1.0f, 1.0f);
+            glClearColor(1, 1, 1, 1);
             GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 
-            va.Bind();
-
             world.Update(time.GetDeltaTime());
+                        
+            if (time.EveryNSeconds(5)) {
+                cout << "Average frame rate = " << time.GetAvgFrameRate() << "(" << time.frameCount << " frames in " << glfwGetTime() << " seconds) \n";
+            }
 
-            //demo.run();
-            
-            //cout << "velocity down: " << newObj2->objVelocity.y << " colliding: " << (newObj2->isColliding?"yes":"no") << "\n";
-            
             renderer.DrawWorld(world, mainCamera);
 
-            /* Swap front and back buffers */
             GLCall(glfwSwapBuffers(window));
 
-            /* Poll for and process events */
             GLCall(glfwPollEvents());
         }
     }

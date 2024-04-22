@@ -27,7 +27,7 @@ double Time::GetDeltaTime() const {
     return deltaTime;
 }
 
-double Time::GetFrameRate() const {
+double Time::GetAvgFrameRate() const {
     return frameCount / glfwGetTime();
 }
 

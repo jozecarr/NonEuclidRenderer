@@ -4,7 +4,6 @@
 #include <GLFW/glfw3.h>
 
 #include "VertexArray.h"
-#include "IndexBuffer.h"
 #include "Shader.h"
 #include "World.h"
 #include "Camera.h"
@@ -21,7 +20,5 @@ void framebuffer_size_callback(GLFWwindow * window, int width, int height);
 class Renderer {
 public:
     void Clear() const;
-    void Draw(VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
     void DrawWorld(World& world, Camera& camera);
 };
-

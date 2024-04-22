@@ -143,9 +143,11 @@
             "id": "c55155270f7f8757",
             "type": "leaf",
             "state": {
-              "type": "release-notes",
+              "type": "markdown",
               "state": {
-                "currentVersion": "1.5.8"
+                "file": "World/World.md",
+                "mode": "source",
+                "source": false
               }
             }
           },
@@ -212,7 +214,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 341.5
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "528ed344fde9c9d2",
@@ -228,7 +231,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Object/Rotate.md",
+                "file": "World/World.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -245,7 +248,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Object/Rotate.md",
+                "file": "World/World.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -268,7 +271,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Object/Rotate.md"
+                "file": "World/World.md"
               }
             }
           }
@@ -291,7 +294,13 @@
   },
   "active": "c55155270f7f8757",
   "lastOpenFiles": [
+    "Object/Object.md",
+    "Object/Grow.md",
+    "Object/SetPosition.md",
+    "World/World.md",
     "Object/ObjectProperties.md",
+    "Object/Rotate.md",
+    "Object/void UpdateModelMatrix().md",
     "Object/Translate.md",
     "tocomplete2.png",
     "tocomplete.png",
@@ -300,14 +309,8 @@
     "Collisions/Collision.h.md",
     "Collisions/Collision Detection.md",
     "Collisions/bool AreObjsColliding(vector(vec3), vector(vec3)).md",
-    "Object/Object.md",
-    "World/World.md",
     "Object/GameObject.h.md",
-    "Object/void UpdateModelMatrix().md",
     "Project.md",
-    "Object/Grow.md",
-    "Object/SetPosition.md",
-    "Object/Rotate.md",
     "Object/SetRotation.md",
     "Object/SetScale.md",
     "World/Update.md",
