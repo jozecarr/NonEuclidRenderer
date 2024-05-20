@@ -145,7 +145,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "World/World.md",
+                "file": "Object/Object.md",
                 "mode": "source",
                 "source": false
               }
@@ -214,8 +214,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "528ed344fde9c9d2",
@@ -231,7 +230,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "World/World.md",
+                "file": "Object/Object.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -248,7 +247,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "World/World.md",
+                "file": "Object/Object.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -271,7 +270,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "World/World.md"
+                "file": "Object/Object.md"
               }
             }
           }
@@ -294,10 +293,11 @@
   },
   "active": "c55155270f7f8757",
   "lastOpenFiles": [
+    "Object/GameObject.h.md",
     "Object/Object.md",
+    "World/World.md",
     "Object/Grow.md",
     "Object/SetPosition.md",
-    "World/World.md",
     "Object/ObjectProperties.md",
     "Object/Rotate.md",
     "Object/void UpdateModelMatrix().md",
@@ -309,7 +309,6 @@
     "Collisions/Collision.h.md",
     "Collisions/Collision Detection.md",
     "Collisions/bool AreObjsColliding(vector(vec3), vector(vec3)).md",
-    "Object/GameObject.h.md",
     "Project.md",
     "Object/SetRotation.md",
     "Object/SetScale.md",
